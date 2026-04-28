@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Links | TLOU Style</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Press Start 2P", system-ui;
+    background-color: #0d0f0a;
+    color: white;
+    overflow: hidden; /* Чтобы не было полос прокрутки */
+    display: flex; /* Магия для центровки */
+    justify-content: center; /* Центруем по горизонтали */
+    align-items: center; /* Центруем по вертикали */
+}
+        /* Основные цвета: мох, гниль, бетон */
+        :root {
+            --bg-color: #0d0f0a;
+            --accent-green: #4a5d23;
+            --fungus-orange: #d48c2a;
+            --text-gray: #a0a0a0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Courier New', Courier, monospace; /* Типа печатная машинка или записки */
+            background-color: var(--bg-color);
+            color: white;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Эффект летающих спор */
+        .spores {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(212,140,42,0.05) 1%, transparent 20%);
+            background-size: 50px 50px;
+            animation: moveSpores 20s linear infinite;
+        }
+
+        @keyframes moveSpores {
+            from { transform: translateY(0); }
+            to { transform: translateY(-500px); }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--text-gray);
+            border-bottom: 1px solid var(--accent-green);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Кнопки-карточки */
+        .link-card {
+            display: block;
+            background: rgba(30, 35, 25, 0.8);
+            border: 1px solid var(--accent-green);
+            margin: 15px 0;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* Эффект заражения при наведении */
+        .link-card:hover {
+            border-color: var(--fungus-orange);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--fungus-orange);
+            background: rgba(40, 30, 10, 0.9);
+        }
+
+        .link-title {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .link-desc {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        /* Декоративная «лиана» сбоку */
+        .link-card::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0; height: 100%; width: 4px;
+            background: var(--accent-green);
+            transition: 0.3s;
+        }
+
+        .link-card:hover::before {
+            background: var(--fungus-orange);
+            box-shadow: 0 0 10px var(--fungus-orange);
+        }
+
+        /* Анимация пульсации грибов */
+        .fungus-pulse {
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; text-shadow: 0 0 10px var(--fungus-orange); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="spores"></div>
+
+    <div class="container">
+        <h1>Выживший: Vlad_Karburator</h1>
+
+        <a href="https://t.me/vladoskarburator" class="link-card" target="_blank">
+            <span class="link-title">Связь: Telegram</span>
+            <span class="link-desc">Сигнал зашифрован. Группировка «Цикады».</span>
+        </a>
+
+        <a href="https://www.instagram.com/opria_vlad/" class="link-card" target="_blank">
+            <span class="link-title">Архив: Instagram</span>
+            <span class="link-desc">Старые снимки до эпидемии.</span>
+        </a>
+
+        <a href="https://www.twitch.tv/vlad1703gg" class="link-card" target="_blank">
+            <span class="link-title">Прямой эфир: Twitch</span>
+            <span class="link-desc">Трансляция из безопасной зоны.</span>
+        </a>
+
+        <p style="font-size: 10px; color: #444; margin-top: 50px;" class="fungus-pulse">
+            ОСТОРОЖНО: ВЫСОКАЯ КОНЦЕНТРАЦИЯ СПОР
+        </p>
+    </div>
+
+</body>
+</html>
