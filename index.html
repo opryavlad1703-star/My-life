@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survival Links | TLOU Style</title>
+    <title>Survival Profile | Vlad</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,71 +21,113 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: "Press Start 2P", system-ui; /* Той самий шрифт */
+            font-family: "Press Start 2P", system-ui;
             background-color: var(--bg-color);
+            /* Текстура грязи и износа */
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(74, 93, 35, 0.1), transparent),
+                url('https://www.transparenttextures.com/patterns/dark-leather.png');
             color: white;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 12px;
         }
 
-        /* Пил та спори на фоні */
+        /* ЭФФЕКТ ЛИАН И РАСТИТЕЛЬНОСТИ */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(135deg, transparent 20%, rgba(74, 93, 35, 0.15) 25%, transparent 30%),
+                linear-gradient(45deg, transparent 40%, rgba(50, 60, 20, 0.2) 45%, transparent 50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .vines-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
+            opacity: 0.15;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ЛЕТАЮЩИЕ СПОРЫ */
         .spores {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            background: radial-gradient(circle, rgba(212,140,42,0.1) 1%, transparent 20%);
-            background-size: 50px 50px;
-            animation: moveSpores 20s linear infinite;
+            background: radial-gradient(circle, rgba(212,140,42,0.15) 1%, transparent 10%);
+            background-size: 80px 80px;
+            animation: moveSpores 25s linear infinite;
+            z-index: 3;
         }
 
         @keyframes moveSpores {
-            from { transform: translateY(0); }
-            to { transform: translateY(-500px); }
+            from { transform: translateY(0) rotate(0deg); }
+            to { transform: translateY(-1000px) rotate(360deg); }
         }
 
         .container {
+            position: relative;
             text-align: center;
             z-index: 10;
             width: 90%;
-            max-width: 450px;
+            max-width: 420px;
+            background: rgba(13, 15, 10, 0.85);
+            padding: 40px 25px;
+            border: 1px solid rgba(74, 93, 35, 0.4);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            /* Эффект старого экрана */
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 2px);
+            pointer-events: none;
         }
 
         h1 {
             font-size: 14px;
             letter-spacing: 2px;
+            color: #efefef;
+            margin-bottom: 35px;
             text-transform: uppercase;
-            color: var(--text-gray);
             border-bottom: 2px solid var(--accent-green);
-            padding-bottom: 15px;
-            margin-bottom: 30px;
+            display: inline-block;
+            padding-bottom: 10px;
         }
 
+        /* КНОПКИ В ВИДЕ ТАБЛИЧЕК */
         .link-card {
             display: block;
-            background: rgba(20, 25, 15, 0.9);
+            background: rgba(25, 30, 20, 0.9);
             border: 1px solid var(--accent-green);
-            margin: 15px 0;
-            padding: 15px;
+            margin: 18px 0;
+            padding: 18px;
             text-decoration: none;
-            color: white;
+            color: #fff;
             position: relative;
-            transition: all 0.3s ease;
+            transition: 0.3s;
+            clip-path: polygon(1% 0%, 100% 2%, 99% 98%, 0% 100%); /* Неровные края */
         }
 
         .link-card:hover {
             border-color: var(--fungus-orange);
-            transform: scale(1.03);
-            box-shadow: 0 0 20px rgba(212, 140, 42, 0.3);
-            background: rgba(35, 30, 15, 0.95);
+            transform: scale(1.05) rotate(1deg);
+            background: rgba(40, 35, 20, 1);
+            box-shadow: 0 0 15px rgba(212, 140, 42, 0.2);
         }
 
         .link-title {
             display: block;
-            font-size: 10px;
-            margin-bottom: 8px;
+            font-size: 11px;
+            margin-bottom: 6px;
         }
 
         .link-desc {
@@ -95,34 +137,55 @@
             text-transform: none;
         }
 
-        .link-card::before {
-            content: "";
-            position: absolute;
-            left: 0; top: 0; height: 100%; width: 4px;
+        /* ИНДИКАТОР ЗДОРОВЬЯ / СТАТУСА */
+        .status-bar {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .health-bg {
+            width: 100%;
+            height: 4px;
+            background: #222;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .health-fill {
+            width: 74%;
+            height: 100%;
             background: var(--accent-green);
-            transition: 0.3s;
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: flicker 4s infinite;
         }
 
-        .link-card:hover::before {
-            background: var(--fungus-orange);
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
-        .fungus-pulse {
-            animation: pulse 3s infinite ease-in-out;
+        .status-text {
+            font-size: 7px;
+            color: var(--accent-green);
+            margin-top: 8px;
+            letter-spacing: 1px;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; color: var(--fungus-orange); }
+        .warning {
+            font-size: 6px;
+            color: #444;
+            margin-top: 20px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
+    <div class="vines-overlay"></div>
     <div class="spores"></div>
 
     <div class="container">
-        <h1>Выживший: Vlad</h1>
+        <h1>Выживший: VLAD</h1>
 
         <a href="https://t.me/vladoskarburator" class="link-card" target="_blank">
             <span class="link-title">Связь: Telegram</span>
@@ -139,9 +202,14 @@
             <span class="link-desc">Трансляция из безопасной зоны.</span>
         </a>
 
-        <p style="font-size: 8px; color: #444; margin-top: 40px;" class="fungus-pulse">
-            Внимание: обнаружена высокая концентрация спор
-        </p>
+        <div class="status-bar">
+            <div class="health-bg">
+                <div class="health-fill"></div>
+            </div>
+            <div class="status-text">СТАТУС: ЗАРАЖЕНИЕ 26%</div>
+        </div>
+
+        <p class="warning">Осторожно: высокая концентрация спор</p>
     </div>
 
 </body>
