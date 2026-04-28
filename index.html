@@ -14,7 +14,6 @@
             --bg-color: #040502;
             --moss-green: #3a4b2a;
             --fungus-orange: #d48c2a;
-            --rust-red: #8b0000;
             --text-gray: #a0a0a0;
         }
 
@@ -24,16 +23,15 @@
             height: 100%;
             width: 100%;
             font-family: "Press Start 2P", system-ui;
-            background-color: var(--bg-color);
-            /* --- ИЗМЕНЕНИЕ 1: НАСТОЯЩИЙ АТМОСФЕРНЫЙ ФОН (КОМНАТА И ГРИБЫ) --- */
-            /* Используем качественное изображение текстуры мха/грибов на старой стене */
-            background-image: 
-                radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%),
-                url('https://images.unsplash.com/photo-1598124237199-a9a7a6c9e0a0?q=80&w=1920'); /* Текстура мха/плесени */
+            /* === ИЗМЕНЕНИЕ ФОНА (image_f4f5a3.png) === */
+            /* Накладываем черный градиент ПОВЕРХ картинки, чтобы текст читался */
+            background: 
+                radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%),
+                url('https://api.deepai.org/job-view-file/b6538421-2e63-4700-b68e-59c40f5a7a7d/outputs/output.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed; /* Это решает проблему "уезжания" фона */
+            background-attachment: fixed;
             color: white;
             overflow: hidden;
             display: flex;
@@ -41,7 +39,7 @@
             align-items: center;
         }
 
-        /* --- ИЗМЕНЕНИЕ 2: ЧАСТИЦЫ ТЕПЕРЬ ЛЕТАЮТ ИНТЕНСИВНО И СЛУЧАЙНО --- */
+        /* ЧАСТИЦЫ (Твои любимые) */
         #spores-canvas {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -49,44 +47,22 @@
             pointer-events: none;
         }
 
-        /* Основной контейнер */
+        /* Центральный контейнер */
         .container {
             position: relative;
             text-align: center;
             z-index: 10;
             width: 90%;
             max-width: 440px;
-            /* --- ИЗМЕНЕНИЕ 3: БЛОК ПЕРЕСТАЛ БЫТЬ ПРЯМОУГОЛЬНЫМ (clip-path органической формы) --- */
-            background: rgba(13, 15, 10, 0.95);
+            /* Непрозрачный фон для блока, чтобы отделить его от комнаты */
+            background: rgba(13, 15, 10, 0.98);
             padding: 45px 30px;
             border: 1px solid var(--moss-green);
-            clip-path: polygon(
-                5% 0%, 95% 0%, 100% 10%, 100% 90%, 95% 100%, 5% 100%, 0% 90%, 0% 10%
-            ); /* Восьмиугольная органическая форма */
+            /* Угловатая форма */
+            clip-path: polygon(5% 0%, 95% 0%, 100% 10%, 100% 90%, 95% 100%, 5% 100%, 0% 90%, 0% 10%);
             box-shadow: 
-                0 0 40px rgba(74, 93, 35, 0.3),
-                inset 0 0 30px rgba(0,0,0,0.8);
-        }
-
-        /* --- ИЗМЕНЕНИЕ 4: ДОБАВЛЯЕМ ОРГАНИЧЕСКИЕ "ГРИБНЫЕ НАРОСТЫ" НА КРАЯ БЛОКА --- */
-        .container::before {
-            content: "";
-            position: absolute;
-            top: -15px; left: -15px; width: 40px; height: 40px;
-            background: url('https://www.transparenttextures.com/patterns/dark-rock.png'), #d48c2a;
-            border-radius: 50%;
-            box-shadow: 0 0 15px #d48c2a;
-            opacity: 0.8;
-            filter: blur(1px);
-        }
-        .container::after {
-            content: "";
-            position: absolute;
-            bottom: -20px; right: 10px; width: 60px; height: 15px;
-            background: #d48c2a;
-            border-radius: 20px;
-            opacity: 0.5;
-            filter: blur(2px);
+                0 0 50px rgba(0, 0, 0, 0.9),
+                0 0 20px rgba(74, 93, 35, 0.2);
         }
 
         h1 {
@@ -101,7 +77,7 @@
             text-shadow: 2px 2px 0 #000;
         }
 
-        /* Кнопки выжившего */
+        /* Кнопки */
         .link-card {
             display: block;
             background: rgba(20, 25, 15, 0.95);
@@ -112,7 +88,6 @@
             color: #fff;
             position: relative;
             transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-            /* Неровная форма */
             clip-path: polygon(1% 0%, 100% 3%, 99% 97%, 0% 100%);
         }
 
@@ -122,20 +97,6 @@
             transform: translateX(8px) rotate(0.5deg);
             background: rgba(30, 25, 10, 1);
             box-shadow: 0 0 15px rgba(212, 140, 42, 0.2);
-        }
-
-        /* Эффект мерцания кнопок */
-        .link-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 140, 42, 0.05), transparent);
-            animation: flicker-light 3s infinite;
-        }
-
-        @keyframes flicker-light {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
         }
 
         .link-title {
@@ -254,9 +215,10 @@
                 if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = `rgba(212, 140, 42, ${this.alpha})`;
+                // Изменяем цвет, чтобы частицы были видны на светлом фоне
+                ctx.fillStyle = `rgba(180, 160, 100, ${this.alpha})`;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.random());
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
