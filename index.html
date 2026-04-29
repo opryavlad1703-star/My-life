@@ -202,6 +202,35 @@
             z-index: 50;
             pointer-events: none;
         }
+        /* === АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНІВ === */
+        @media (max-width: 480px) {
+            body, html {
+                overflow-y: auto; /* Дозволяємо гортати вниз, якщо контент не влазить */
+                align-items: flex-start; /* Вирівнюємо по верхньому краю */
+                padding: 20px 0;
+            }
+
+            .main-terminal {
+                width: 92%; /* Табличка займає майже всю ширину */
+                max-width: none;
+                padding: 30px 20px; /* Менші відступи всередині */
+                margin: 20px auto;
+            }
+
+            h1 {
+                font-size: 13px; /* Трохи менший заголовок */
+                line-height: 1.4;
+            }
+
+            .action-btn {
+                padding: 14px 15px;
+                font-size: 9px;
+            }
+
+            .subtitle, .status-label {
+                font-size: 7px;
+            }
+        }
     </style>
 </head>
 <body>
