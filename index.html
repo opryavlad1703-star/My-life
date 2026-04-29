@@ -11,29 +11,15 @@
 
     <style>
         :root {
-            --bg-color: #040502;
-            --moss-green: #3a4b2a; /* Колір мху */
-            --fungus-orange: #d48c2a; /* Колір грибів кордіцепсу */
-            --text-gray: #a0a0a0;
-            --rust-red: #8b0000;
+            --bg-dark: #050703;
+            --moss-green: #3a4b2a; 
+            --fungus-orange: #d48c2a; 
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            font-family: "Press Start 2P", system-ui;
-            background-color: var(--bg-color);
-            /* === БАГАТОШАРОВИЙ ФОН (Кімната татім) === */
-            /* Використовуємо radial-gradient поверх картинки, щоб затемнити краї */
-            background: 
-                radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.9) 100%),
-                url('background.png'); /* НАЗВА МАЄ БУТИ 1 В 1 ЯК У ФАЙЛА У РЕПОЗИТОРІЇ */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed; /* Це прибирає void-ефект, фон статичний */
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            font-family: "Press Start 2P", cursive;
+            background-color: var(--bg-dark);
             color: white;
             overflow: hidden;
             display: flex;
@@ -41,276 +27,184 @@
             align-items: center;
         }
 
-        /* === 3D ЛІАНИ ТА МИШОТКА (Передній план) === */
-        #vines-overlay {
+        /* === ГОЛОВНИЙ ФОН (Твоя кімната) === */
+        .background-main {
             position: fixed;
-            top: -10%; left: -10%; width: 120%; height: 120%;
-            pointer-events: none;
-            z-index: 5; /* Понад усім, але під частинками */
-            opacity: 0.8;
-            filter: blur(2px); /* Розмиття для глибини */
-            background-image: url('https://w7.pngwing.com/pngs/397/42/png-transparent-vines-ivy-branch-twisting-ivy-branch-green-transparent.png');
-            background-size: cover;
-            background-position: top;
-            background-repeat: no-repeat;
-        }
-
-        /* ЧАСТИЦИ (Інтенсивніші та оранжеві) */
-        #spores-canvas {
-            position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10; /* Понад ліанами */
-            pointer-events: none;
+            /* Прибираємо білу пляму, робимо глибоке затемнення країв */
+            background: 
+                radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%),
+                url('background.png'); 
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            filter: brightness(0.6) contrast(1.2); /* Робимо картинку похмурою */
         }
 
-        /* Основний контейнер (тепер як зістарена панель) */
+        /* === БАГАТОШАРОВІ ЛІАНИ ТА БРУД === */
+        .vines-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.5;
+            /* Надійне посилання на текстуру листя */
+            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
+            filter: invert(1) brightness(0.2) sepia(1) hue-rotate(60deg);
+        }
+
+        /* Ефект брудного скла/іржі поверх усього */
+        .overlay-grit {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            background-image: url('https://www.transparenttextures.com/patterns/dust.png');
+            opacity: 0.2;
+        }
+
+        /* === КОНТЕЙНЕР (Зношений метал/камінь) === */
         .container {
             position: relative;
-            text-align: center;
-            z-index: 2; /* Над фоном, під ліанами */
+            z-index: 10;
             width: 90%;
             max-width: 440px;
-            /* Непрозрачний фон з текстурою іржі та зістареної шкіри */
-            background: 
-                url('https://www.transparenttextures.com/patterns/dark-rock.png'),
-                url('https://www.transparenttextures.com/patterns/dark-leather.png'),
-                rgba(13, 15, 10, 0.98);
-            padding: 45px 30px;
+            background: rgba(10, 12, 8, 0.95);
+            padding: 40px;
             border: 2px solid var(--moss-green);
-            /* Органічна, "гризена" клиноподібна форма ( clip-path органічний) */
-            clip-path: polygon(
-                5% 0%, 95% 0%, 100% 10%, 100% 90%, 95% 100%, 5% 100%, 0% 90%, 0% 10%
-            );
-            box-shadow: 
-                0 0 50px rgba(0, 0, 0, 1),
-                0 0 20px rgba(74, 93, 35, 0.3),
-                inset 0 0 30px rgba(0,0,0,0.8);
+            /* Органічна, погризена форма */
+            clip-path: polygon(2% 0%, 96% 2%, 100% 7%, 98% 95%, 94% 100%, 5% 98%, 0% 93%, 1% 5%);
+            box-shadow: 0 0 50px #000, inset 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
-        /* === 3D ТЕКСТУРИ НА КОНТЕЙНЕРІ (Грибні нарости) === */
-        /* Додаємо невеликі органічні nuggets на контейнер */
+        /* Грибні нарости на кутах */
         .container::before {
             content: "";
             position: absolute;
-            top: -20px; left: -20px; width: 40px; height: 40px;
-            background: url('https://www.transparenttextures.com/patterns/dark-rock.png'), #d48c2a;
+            top: -10px; left: -10px; width: 30px; height: 30px;
+            background: var(--fungus-orange);
+            filter: blur(8px);
             border-radius: 50%;
-            box-shadow: 0 0 15px #d48c2a;
-            opacity: 0.8;
-            filter: blur(1px);
-        }
-        .container::after {
-            content: "";
-            position: absolute;
-            bottom: -30px; right: 10px; width: 60px; height: 15px;
-            background: #d48c2a;
-            border-radius: 20px;
-            opacity: 0.6;
-            filter: blur(2px);
+            opacity: 0.4;
         }
 
         h1 {
-            font-size: 13px;
-            letter-spacing: 2px;
-            color: #efefef;
-            margin-bottom: 35px;
-            text-transform: uppercase;
+            font-size: 14px;
+            color: #ddd;
             border-bottom: 2px solid var(--moss-green);
-            display: inline-block;
-            padding-bottom: 12px;
-            text-shadow: 3px 3px 0 #000;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 0 #000;
         }
 
-        /* Кнопки зв'язку (тепер з текстурою каменю) */
         .link-card {
             display: block;
-            background: 
-                url('https://www.transparenttextures.com/patterns/dark-rock.png'),
-                rgba(20, 25, 15, 0.98);
+            background: rgba(255,255,255,0.03);
             border: 1px solid var(--moss-green);
-            margin: 18px 0;
+            margin: 15px 0;
             padding: 18px;
             text-decoration: none;
-            color: #fff;
+            color: #eee;
+            font-size: 10px;
+            transition: 0.3s;
             position: relative;
-            transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-            clip-path: polygon(1% 0%, 100% 3%, 99% 97%, 0% 100%);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            overflow: hidden;
         }
 
         .link-card:hover {
             border-color: var(--fungus-orange);
             color: var(--fungus-orange);
-            transform: translateX(8px) rotate(0.5deg);
-            background: rgba(30, 25, 10, 1);
-            box-shadow: 0 0 15px rgba(212, 140, 42, 0.2);
+            background: rgba(212, 140, 42, 0.05);
+            transform: translateX(5px);
         }
 
-        /* Ефект "іржі" та мерцання неону на кнопках */
-        .link-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 140, 42, 0.05), transparent);
-            animation: flicker-light 3s infinite;
-        }
-
-        @keyframes flicker-light {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
-        .link-title {
-            display: block;
-            font-size: 11px;
-            margin-bottom: 8px;
-        }
-
-        .link-desc {
-            display: block;
-            font-size: 7px;
-            color: var(--text-gray);
-            text-transform: none;
-        }
-
-        /* СТАТУС БАР (тепер "заражений") */
-        .status-bar {
-            margin-top: 40px;
-            text-align: left;
-        }
-
-        .health-bg {
+        /* СТАТУС БАР */
+        .health-bar {
+            height: 6px;
             width: 100%;
-            height: 5px;
-            background: #222;
-            position: relative;
-            border: 1px solid rgba(74, 93, 35, 0.2);
+            background: #111;
+            margin-top: 30px;
+            border: 1px solid #333;
         }
 
         .health-fill {
-            width: 74%;
             height: 100%;
+            width: 74%;
             background: var(--moss-green);
-            box-shadow: 0 0 15px var(--moss-green);
-            animation: pulse-health 4s infinite;
+            box-shadow: 0 0 10px var(--moss-green);
+            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse-health {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
-        .status-text {
-            font-size: 8px;
-            color: var(--moss-green);
-            margin-top: 10px;
-            letter-spacing: 1px;
-        }
-
-        .warning {
-            font-size: 6px;
-            color: #333;
-            margin-top: 25px;
-            text-transform: uppercase;
+        #spores-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
         }
     </style>
 </head>
 <body>
 
-    <div id="vines-overlay"></div>
-
+    <div class="background-main"></div>
+    <div class="vines-layer"></div>
+    <div class="overlay-grit"></div>
     <canvas id="spores-canvas"></canvas>
 
     <div class="container">
-        <h1>Выживший: VLAD</h1>
+        <h1>SURVIVOR: VLAD</h1>
+        
+        <a href="https://t.me/vladoskarburator" class="link-card" target="_blank">TELEGRAM [ENCRYPTED]</a>
+        <a href="https://www.instagram.com/opria_vlad/" class="link-card" target="_blank">INSTAGRAM [OLD WORLD]</a>
+        <a href="https://www.twitch.tv/vlad1703gg" class="link-card" target="_blank">TWITCH [OUTPOST]</a>
 
-        <a href="https://t.me/vladoskarburator" class="link-card" target="_blank">
-            <span class="link-title">Связь: Telegram</span>
-            <span class="link-desc">Сигнал зашифрован. Группировка «Цикады».</span>
-        </a>
-
-        <a href="https://www.instagram.com/opria_vlad/" class="link-card" target="_blank">
-            <span class="link-title">Архив: Instagram</span>
-            <span class="link-desc">Старые снимки до эпидемии.</span>
-        </a>
-
-        <a href="https://www.twitch.tv/vlad1703gg" class="link-card" target="_blank">
-            <span class="link-title">Прямой эфир: Twitch</span>
-            <span class="link-desc">Трансляция из безопасной зоны.</span>
-        </a>
-
-        <div class="status-bar">
-            <div class="health-bg">
-                <div class="health-fill"></div>
-            </div>
-            <div class="status-text">СТАТУС: ЗАРАЖЕНИЕ 26%</div>
+        <div style="font-size: 8px; color: var(--moss-green); margin-top: 25px; text-align: left;">
+            INFECTION: 26%
+            <div class="health-bar"><div class="health-fill"></div></div>
         </div>
-
-        <p class="warning">Осторожно: высокая концентрация спор</p>
     </div>
 
     <script>
         const canvas = document.getElementById('spores-canvas');
         const ctx = canvas.getContext('2d');
+        let spores = [];
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        let spores = [];
-        const numSpores = 200; // Кількість частинок
 
         class Spore {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5; // Случний розмір
-                this.speedX = (Math.random() - 0.5) * 1.2; // Случна швидкість X
-                this.speedY = (Math.random() - 0.5) * 0.8; // Случна швидкість Y
-                this.alpha = Math.random(); // Прозорість
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                // Переміщення при виході за межі
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random();
             }
             draw() {
-                // Изменяем цвет, чтобы частицы были видны на светлом фоне
                 ctx.fillStyle = `rgba(212, 140, 42, ${this.alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
-        }
-
-        function init() {
-            for (let i = 0; i < numSpores; i++) {
-                spores.push(new Spore());
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
             }
         }
+
+        for(let i=0; i<100; i++) spores.push(new Spore());
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < spores.length; i++) {
-                spores[i].update();
-                spores[i].draw();
-            }
+            ctx.clearRect(0,0, canvas.width, canvas.height);
+            spores.forEach(s => { s.update(); s.draw(); });
             requestAnimationFrame(animate);
         }
-
-        init();
         animate();
-
-        window.addEventListener('resize', function() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            spores = [];
-            init();
-        });
     </script>
-
 </body>
 </html>
