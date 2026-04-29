@@ -31,14 +31,13 @@
         .background-main {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* Фон береться прямо з твоєї папки */
             background: 
                 radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%),
-                url('background.png'); 
+                /* ТУТ МІНЯЄМО НАЗВУ НА НОВУ */
+                url('bg-room.png'); 
             background-size: cover;
             background-position: center;
             z-index: -2;
-            /* Трохи приглушуємо яскравість для похмурої атмосфери */
             filter: brightness(0.6) contrast(1.2); 
         }
 
