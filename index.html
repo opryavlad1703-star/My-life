@@ -7,19 +7,18 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #050505;
-            --moss: #2d381c; 
-            --fungus: #d9772b; 
-            --panel-bg: rgba(10, 12, 8, 0.92);
+            --bg-dark: #050703;
+            --moss-green: #3a4b2a; 
+            --fungus-orange: #d48c2a; 
         }
 
         body, html {
             margin: 0; padding: 0; height: 100%; width: 100%;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: "Press Start 2P", cursive;
             background-color: var(--bg-dark);
             color: white;
             overflow: hidden;
@@ -28,127 +27,118 @@
             align-items: center;
         }
 
-        /* === ФОН (Виправлено яскравість) === */
+        /* === ГОЛОВНИЙ ФОН (Твоя кімната) === */
         .background-main {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                /* Подвійний градієнт для поглинання яскравості з вікна */
-                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
-                url('bg-tlou.jpg'); 
+                radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%),
+                /* ТУТ МІНЯЄМО НАЗВУ НА НОВУ */
+                url('bg-room.png'); 
             background-size: cover;
             background-position: center;
-            z-index: -3;
+            z-index: -2;
+            filter: brightness(0.6) contrast(1.2); 
         }
 
-        /* === ЛІАНИ (Додано візуально через тіні та градієнти) === */
-        .vines-overlay {
+        /* === БАГАТОШАРОВІ ЛІАНИ === */
+        .vines-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
             pointer-events: none;
-            background: 
-                radial-gradient(at 10% 10%, var(--moss) 0%, transparent 40%),
-                radial-gradient(at 90% 90%, #1a230e 0%, transparent 40%);
-            opacity: 0.6;
-            filter: contrast(1.5);
+            z-index: -1;
+            opacity: 0.5;
+            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
+            filter: invert(1) brightness(0.2) sepia(1) hue-rotate(60deg);
         }
 
-        /* Ефект бруду та спор */
+        /* === ЕФЕКТ ПИЛУ ТА БРУДУ === */
         .overlay-grit {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 100;
             background-image: url('https://www.transparenttextures.com/patterns/dust.png');
-            opacity: 0.3;
+            opacity: 0.2;
         }
 
         /* === ЦЕНТРАЛЬНА ПАНЕЛЬ === */
         .container {
             position: relative;
             z-index: 10;
-            width: 85%;
-            max-width: 380px;
-            background: var(--panel-bg);
+            width: 90%;
+            max-width: 440px;
+            background: rgba(10, 12, 8, 0.95);
             padding: 40px;
-            border: 1px solid rgba(217, 119, 43, 0.3);
-            border-left: 5px solid var(--fungus);
-            box-shadow: 0 0 50px rgba(0,0,0,1);
+            border: 2px solid var(--moss-green);
+            /* Ефект "погризених" країв */
+            clip-path: polygon(2% 0%, 96% 2%, 100% 7%, 98% 95%, 94% 100%, 5% 98%, 0% 93%, 1% 5%);
+            box-shadow: 0 0 50px #000, inset 0 0 20px rgba(0,0,0,0.5);
             text-align: center;
         }
 
-        /* Нарости грибка на кутах */
+        /* Грибні нарости на кутах панелі */
         .container::before {
             content: "";
             position: absolute;
-            top: -5px; right: -5px; width: 40px; height: 40px;
-            background: var(--fungus);
-            filter: blur(15px);
+            top: -10px; left: -10px; width: 30px; height: 30px;
+            background: var(--fungus-orange);
+            filter: blur(8px);
+            border-radius: 50%;
             opacity: 0.4;
         }
 
         h1 {
-            font-size: 26px;
-            margin-bottom: 35px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #efefef;
-            text-shadow: 0 0 10px rgba(217, 119, 43, 0.5);
+            font-size: 14px;
+            color: #ddd;
+            border-bottom: 2px solid var(--moss-green);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 0 #000;
         }
 
-        /* === КНОПКИ (Тепер не прозорі) === */
+        /* === КНОПКИ === */
         .link-card {
             display: block;
-            background: #151812; /* Темний непрозорий фон */
-            border: 1px solid #3a4b2a;
-            margin: 18px 0;
-            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--moss-green);
+            margin: 15px 0;
+            padding: 18px;
             text-decoration: none;
-            color: #ccc;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            color: #eee;
+            font-size: 10px;
             transition: 0.3s;
             position: relative;
-            text-transform: uppercase;
+            overflow: hidden;
         }
 
         .link-card:hover {
-            background: #1e2418;
-            border-color: var(--fungus);
-            color: white;
-            box-shadow: 0 0 15px rgba(217, 119, 43, 0.3);
-            transform: scale(1.03);
+            border-color: var(--fungus-orange);
+            color: var(--fungus-orange);
+            background: rgba(212, 140, 42, 0.05);
+            transform: translateX(5px);
         }
 
         /* === СТАТУС БАР === */
-        .status-area {
-            margin-top: 40px;
-            text-align: left;
-        }
-
-        .status-label {
-            font-size: 12px;
-            color: var(--fungus);
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
         .health-bar {
             height: 6px;
             width: 100%;
-            background: #000;
-            border: 1px solid #222;
+            background: #111;
+            margin-top: 30px;
+            border: 1px solid #333;
         }
 
         .health-fill {
             height: 100%;
-            width: 26%;
-            background: linear-gradient(90deg, #3a4b2a, var(--fungus));
-            box-shadow: 0 0 10px var(--fungus);
+            width: 74%;
+            background: var(--moss-green);
+            box-shadow: 0 0 10px var(--moss-green);
+            animation: pulse 2s infinite;
         }
 
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* === КАНВАС ДЛЯ СПОР === */
         #spores-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -160,19 +150,19 @@
 <body>
 
     <div class="background-main"></div>
-    <div class="vines-overlay"></div>
+    <div class="vines-layer"></div>
     <div class="overlay-grit"></div>
     <canvas id="spores-canvas"></canvas>
 
     <div class="container">
-        <h1>Survivor: Vlad</h1>
+        <h1>SURVIVOR: VLAD</h1>
         
-        <a href="https://t.me/vladoskarburator" class="link-card" target="_blank">Telegram [Encrypted]</a>
-        <a href="https://www.instagram.com/opria_vlad/" class="link-card" target="_blank">Instagram [Old World]</a>
-        <a href="https://www.twitch.tv/vlad1703gg" class="link-card" target="_blank">Twitch [Outpost]</a>
+        <a href="https://t.me/vladoskarburator" class="link-card" target="_blank">TELEGRAM [ENCRYPTED]</a>
+        <a href="https://www.instagram.com/opria_vlad/" class="link-card" target="_blank">INSTAGRAM [OLD WORLD]</a>
+        <a href="https://www.twitch.tv/vlad1703gg" class="link-card" target="_blank">TWITCH [OUTPOST]</a>
 
-        <div class="status-area">
-            <div class="status-label">INFECTION LEVEL: 26%</div>
+        <div style="font-size: 8px; color: var(--moss-green); margin-top: 25px; text-align: left;">
+            INFECTION: 26%
             <div class="health-bar"><div class="health-fill"></div></div>
         </div>
     </div>
@@ -186,30 +176,29 @@
 
         class Spore {
             constructor() {
-                this.reset();
-            }
-            reset() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 10;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() * -0.8) - 0.2;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.8;
+                this.vy = (Math.random() - 0.5) * 0.5;
                 this.size = Math.random() * 2;
-                this.alpha = Math.random() * 0.5;
+                this.alpha = Math.random();
             }
             draw() {
-                ctx.fillStyle = `rgba(217, 119, 43, ${this.alpha})`;
+                ctx.fillStyle = `rgba(212, 140, 42, ${this.alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.y < -10) this.reset();
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
             }
         }
 
-        for(let i=0; i<80; i++) spores.push(new Spore());
+        for(let i=0; i<100; i++) spores.push(new Spore());
 
         function animate() {
             ctx.clearRect(0,0, canvas.width, canvas.height);
@@ -218,6 +207,7 @@
         }
         animate();
 
+        // Оновлюємо канвас, якщо розмір вікна змінюється
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
