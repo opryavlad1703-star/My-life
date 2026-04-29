@@ -10,21 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style>
-        @keyframes breathe {
-    0%, 100% { box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(62, 76, 45, 0.3); }
-    50% { box-shadow: 0 0 40px rgba(0,0,0,0.9), inset 0 0 25px rgba(75, 94, 47, 0.5); }
-}
-
-
-        /* ОСНОВНІ ЗМІННІ КОЛЬОРІВ */
+        /* ОСНОВНІ ЗМІННІ */
         :root {
-    --bg-color: #0a0c08;
-    --main-green: #4b5e2f;
-    --dark-green: #1a230f;
-    --accent-orange: #ff9d2f;
-    --text-gray: #cfcfcf;
-    --border-rust: #5a3f25;
-}
+            --bg-color: #0a0c08;
+            --main-green: #4b5e2f;
+            --dark-green: #1a230f;
+            --accent-orange: #ff9d2f;
+            --text-gray: #cfcfcf;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -34,7 +28,8 @@
         body, html {
             height: 100%;
             width: 100%;
-            background-color: var(--bg-color);
+            /* КРИТИЧНО: прибираємо колір фону, щоб він не перекривав картинку */
+            background-color: black; 
             font-family: "Press Start 2P", cursive;
             color: white;
             overflow: hidden;
@@ -43,130 +38,77 @@
             align-items: center;
         }
 
-        /* Твоя основна картинка */
-      .background-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Змінено з -10 на -1 */
-}
+        /* === ФОНОВІ ШАРИ === */
+        
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* КРИТИЧНО: z-index -1, щоб бути над підкладкою, але під контентом */
+            z-index: 1; 
+        }
 
-.base-image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: url('background.png');
-    background-size: cover;
-    background-position: center;
-    /* Яскравість 0.7 замість 0.5, щоб було видно деталі */
-    filter: brightness(0.7) contrast(1.1);
-}
-        /* Віньєтка (затемнення країв) */
+        .base-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Налаштування картинки */
+            background: 
+                linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
+                url('background.png') no-repeat center center;
+            background-size: cover;
+            /* Зробили трохи яскравіше, щоб точно бачити результат */
+            filter: brightness(0.7) contrast(1.1);
+        }
+
         .vignette {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.9) 100%);
+            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 100%);
+            z-index: 2;
         }
 
-        /* Текстура бруду на склі */
         .dirt-overlay {
             position: absolute;
             width: 100%;
             height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/dust.png');
-            opacity: 0.3;
-            pointer-events: none;
-        }
-
-        /* Шар ліан та моху */
-        .moss-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
             opacity: 0.2;
-            filter: invert(1) sepia(1) hue-rotate(50deg) brightness(0.3);
+            z-index: 3;
             pointer-events: none;
         }
 
         /* === ЦЕНТРАЛЬНИЙ БЛОК === */
 
-       .main-terminal {
-    position: relative;
-    width: 440px;
-    padding: 50px;
+        .main-terminal {
+            position: relative;
+            width: 440px;
+            padding: 50px;
+            background: rgba(10, 14, 10, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(120, 180, 80, 0.3);
+            z-index: 100; /* Контент завжди зверху */
 
-    background: rgba(10, 14, 10, 0.3);
+            clip-path: polygon(
+                0% 5%, 3% 0%, 97% 0%, 100% 4%, 
+                100% 94%, 96% 100%, 4% 100%, 0% 96%
+            );
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    border: 1px solid rgba(120, 180, 80, 0.2);
-
-    box-shadow: 
-        0 0 60px rgba(80, 140, 60, 0.15),
-        inset 0 0 25px rgba(80, 140, 60, 0.08);
-
-    clip-path: polygon(
-        0% 5%, 3% 0%, 97% 0%, 100% 4%, 
-        100% 94%, 96% 100%, 4% 100%, 0% 96%
-    );
-
-    transition: 0.5s ease;
-}
-       .main-terminal::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-
-    border-radius: 6px;
-
-    background: linear-gradient(
-        120deg,
-        rgba(120,255,120,0.15),
-        transparent 40%,
-        transparent 60%,
-        rgba(255,150,50,0.15)
-    );
-
-    filter: blur(10px);
-    z-index: -1;
-}
-        .main-terminal::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.03) 0px,
-        rgba(255,255,255,0.03) 1px,
-        transparent 2px,
-        transparent 4px
-    );
-    pointer-events: none;
-}
-
-@keyframes glitch {
-    0% { transform: translate(0); }
-    25% { transform: translate(1px, -1px); }
-    50% { transform: translate(-1px, 1px); }
-    75% { transform: translate(1px, 1px); }
-    100% { transform: translate(0); }
-}
-
-        /* Декоративні елементи на рамці */
         .corner-detail {
-    width: 20px;
-    height: 2px;
-    background: var(--accent-orange);
-    opacity: 0.6;
-    filter: blur(2px);
-}
-        .c-tl { top: 5px; left: 5px; }
-        .c-br { bottom: 5px; right: 5px; }
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--accent-orange);
+            opacity: 0.8;
+        }
+        .c-tl { top: 10px; left: 10px; }
+        .c-br { bottom: 10px; right: 10px; }
 
         header {
             margin-bottom: 40px;
@@ -178,7 +120,6 @@
             font-size: 16px;
             letter-spacing: 2px;
             color: #efefef;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.5);
         }
 
         .subtitle {
@@ -188,65 +129,36 @@
             text-transform: uppercase;
         }
 
-        /* === КНОПКИ (LINKS) === */
-
+        /* КНОПКИ */
         .links-group {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .action-btn {
             position: relative;
             display: block;
-            padding: 20px;
-            background: linear-gradient(90deg, rgba(62, 76, 45, 0.1) 0%, transparent 100%);
+            padding: 18px;
+            background: rgba(62, 76, 45, 0.2);
             border: 1px solid var(--dark-green);
             text-decoration: none;
             color: var(--text-gray);
-            font-size: 11px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
-        }
-
-        .action-btn::before {
-            content: "> ";
-            color: var(--accent-orange);
-            opacity: 0;
+            font-size: 10px;
             transition: 0.3s;
         }
 
         .action-btn:hover {
             color: var(--accent-orange);
             border-color: var(--accent-orange);
-            background: rgba(212, 140, 42, 0.05);
-            transform: scale(1.05) rotate(-1deg);
-            padding-left: 30px;
+            background: rgba(212, 140, 42, 0.1);
+            padding-left: 25px;
+            transform: translateX(5px);
         }
 
-        .action-btn:hover::before {
-            opacity: 1;
-        }
-        .action-btn::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,157,47,0.2), transparent);
-    transition: 0.5s;
-}
-
-.action-btn:hover::after {
-    left: 100%;
-}
-
-        /* === СТАТУС-БАР === */
-
+        /* СТАТУС-БАР */
         .status-container {
-            margin-top: 50px;
-            text-align: left;
+            margin-top: 40px;
         }
 
         .status-label {
@@ -258,27 +170,23 @@
         }
 
         .progress-bg {
-            height: 10px;
+            height: 12px;
             background: #000;
             border: 1px solid var(--dark-green);
-            position: relative;
         }
 
         .progress-fill {
             height: 100%;
             width: 26%;
             background: var(--main-green);
-            box-shadow: 0 0 15px var(--main-green);
+            box-shadow: 0 0 10px var(--main-green);
             animation: flicker 3s infinite;
         }
 
         @keyframes flicker {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-            55% { opacity: 0.9; }
+            50% { opacity: 0.7; }
         }
-
-        /* === ЕФЕКТИ ЧАСТИНОК (КАНВАС) === */
 
         #particle-canvas {
             position: fixed;
@@ -287,19 +195,17 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 5;
+            z-index: 10;
         }
 
-        /* Ефект шуму (Noise) */
         .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-            opacity: 0.15;
-            z-index: 20;
+            opacity: 0.1;
+            z-index: 50;
             pointer-events: none;
         }
-
     </style>
 </head>
 <body>
@@ -307,7 +213,6 @@
     <div class="background-container">
         <div class="base-image"></div>
         <div class="vignette"></div>
-        <div class="moss-layer"></div>
         <div class="dirt-overlay"></div>
     </div>
 
@@ -324,9 +229,9 @@
         </header>
 
         <nav class="links-group">
-            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">SEND TELEGRAM</a>
-            <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">OPEN ARCHIVE: INSTAGRAM</a>
-            <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">SIGNAL: TWITCH</a>
+            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">> SEND TELEGRAM</a>
+            <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">> OPEN ARCHIVE: INSTAGRAM</a>
+            <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">> SIGNAL: TWITCH</a>
         </nav>
 
         <div class="status-container">
@@ -343,64 +248,45 @@
     <script>
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-        
         let particles = [];
-        const particleCount = 120;
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-
         window.addEventListener('resize', resize);
         resize();
 
         class Particle {
-            constructor() {
-                this.reset();
-            }
-
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = Math.random() * 2.5;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 2;
                 this.alpha = Math.random() * 0.5;
-                this.color = Math.random() > 0.5 ? '#d48c2a' : '#3e4c2d';
             }
-
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset();
-                }
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
             }
-
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
+                ctx.fillStyle = '#4b5e2f';
                 ctx.globalAlpha = this.alpha;
                 ctx.fill();
             }
         }
 
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
-
         animate();
     </script>
 
