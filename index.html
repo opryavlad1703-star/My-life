@@ -15,7 +15,10 @@
         }
 
         body, html {
-            margin: 0; padding: 0; height: 100%; width: 100%;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
             font-family: 'Rajdhani', sans-serif;
             background-color: #000;
             color: #e0e0e0;
@@ -25,32 +28,53 @@
             align-items: center;
         }
 
-        /* === ФОН (Твоє фото) === */
+        /* === ФОН === */
         .background-main {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* ВАЖЛИВО: Назви свою картинку саме так: bg.jpg */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
             background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('bg.jpg');
             background-size: cover;
             background-position: center;
+
             z-index: -3;
+
             filter: contrast(1.1) brightness(0.8);
+            animation: pulseBg 10s infinite alternate;
         }
 
-        /* === ЕФЕКТ КІНО-ШУМУ === */
+        @keyframes pulseBg {
+            from {
+                filter: contrast(1.1) brightness(0.75);
+            }
+            to {
+                filter: contrast(1.2) brightness(0.9);
+            }
+        }
+
+        /* шум */
         .film-grain {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             opacity: 0.15;
             pointer-events: none;
             z-index: -1;
         }
 
-        /* === ЛІАНИ (Малюємо їх прямо поверх екрана) === */
+        /* ліани */
         .vines {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
                 radial-gradient(circle at 0% 0%, var(--moss) 0%, transparent 30%),
                 radial-gradient(circle at 100% 100%, #1a230e 0%, transparent 35%);
@@ -59,22 +83,27 @@
             z-index: -2;
         }
 
-        /* === ЦЕНТРАЛЬНА ПАНЕЛЬ === */
+        /* панель */
         .container {
             position: relative;
             z-index: 10;
             width: 85%;
             max-width: 380px;
-            background: var(--dark-panel);
             padding: 50px 30px;
-            border: 1px solid #222;
-            box-shadow: 0 0 100px rgba(0,0,0,0.9);
-            text-align: center;
-            /* Ефект "іржі" на краях */
+
+            background: rgba(13, 15, 10, 0.85);
+            backdrop-filter: blur(8px);
+
+            border: 1px solid rgba(255, 122, 0, 0.2);
             border-left: 4px solid var(--fungus);
+
+            box-shadow: 
+                0 0 80px rgba(0,0,0,0.9),
+                0 0 20px rgba(217, 119, 43, 0.2);
+
+            text-align: center;
         }
 
-        /* Декор ліан на самій панелі */
         .container::after {
             content: "☣";
             position: absolute;
@@ -94,7 +123,7 @@
             text-shadow: 2px 2px 0px var(--fungus);
         }
 
-        /* === КНОПКИ (Тепер вони виглядають масивно) === */
+        /* кнопки */
         .link-card {
             display: block;
             background: #1a1a1a;
@@ -108,18 +137,24 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             transition: all 0.3s;
-            position: relative;
         }
 
         .link-card:hover {
             background: #222;
             color: #fff;
             border-color: var(--fungus);
-            transform: scale(1.02);
-            box-shadow: -10px 0 0 var(--fungus);
+            transform: scale(1.03);
+            box-shadow: 
+                -10px 0 0 var(--fungus),
+                0 0 15px rgba(217,119,43,0.4);
         }
 
-        /* === HUD СТАТИСТИКА === */
+        .link-card:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 20px var(--fungus);
+        }
+
+        /* статус */
         .status-area {
             margin-top: 40px;
             text-align: left;
@@ -142,15 +177,18 @@
 
         .bar-fill {
             height: 100%;
-            width: 26%;
+            width: 62%;
             background: var(--fungus);
             box-shadow: 0 0 10px var(--fungus);
         }
 
-        /* СПОРИ */
+        /* спори */
         #spores {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 5;
         }
@@ -166,9 +204,9 @@
     <div class="container">
         <h1>SURVIVOR:VLAD</h1>
         
-        <a href="https://t.me/vladoskarburator" class="link-card">Access Telegram</a>
-        <a href="https://www.instagram.com/opria_vlad/" class="link-card">View Archives</a>
-        <a href="https://www.twitch.tv/vlad1703gg" class="link-card">Twitch Stream</a>
+        <a href="https://t.me/vladoskarburator" target="_blank" class="link-card">Access Telegram</a>
+        <a href="https://www.instagram.com/opria_vlad/" target="_blank" class="link-card">View Archives</a>
+        <a href="https://www.twitch.tv/vlad1703gg" target="_blank" class="link-card">Twitch Stream</a>
 
         <div class="status-area">
             <div class="label">INFECTION LEVEL: 62% / STATUS: CRITICAL</div>
@@ -179,8 +217,13 @@
     <script>
         const canvas = document.getElementById('spores');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
         let particles = [];
         for(let i=0; i<70; i++) {
@@ -206,5 +249,6 @@
         }
         draw();
     </script>
+
 </body>
 </html>
