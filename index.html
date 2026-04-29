@@ -31,27 +31,29 @@
         .background-main {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
+            /* Фон береться прямо з твоєї папки */
             background: 
                 radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%),
-                url('background.png'); /* Перевір, щоб розширення співпадало з файлом */
+                url('background.png'); 
             background-size: cover;
             background-position: center;
             z-index: -2;
-            filter: brightness(0.5) contrast(1.1); 
+            /* Трохи приглушуємо яскравість для похмурої атмосфери */
+            filter: brightness(0.6) contrast(1.2); 
         }
-        /* === БАГАТОШАРОВІ ЛІАНИ ТА БРУД === */
+
+        /* === БАГАТОШАРОВІ ЛІАНИ === */
         .vines-layer {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: -1;
             opacity: 0.5;
-            /* Надійне посилання на текстуру листя */
             background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
             filter: invert(1) brightness(0.2) sepia(1) hue-rotate(60deg);
         }
 
-        /* Ефект брудного скла/іржі поверх усього */
+        /* === ЕФЕКТ ПИЛУ ТА БРУДУ === */
         .overlay-grit {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -61,7 +63,7 @@
             opacity: 0.2;
         }
 
-        /* === КОНТЕЙНЕР (Зношений метал/камінь) === */
+        /* === ЦЕНТРАЛЬНА ПАНЕЛЬ === */
         .container {
             position: relative;
             z-index: 10;
@@ -70,13 +72,13 @@
             background: rgba(10, 12, 8, 0.95);
             padding: 40px;
             border: 2px solid var(--moss-green);
-            /* Органічна, погризена форма */
+            /* Ефект "погризених" країв */
             clip-path: polygon(2% 0%, 96% 2%, 100% 7%, 98% 95%, 94% 100%, 5% 98%, 0% 93%, 1% 5%);
             box-shadow: 0 0 50px #000, inset 0 0 20px rgba(0,0,0,0.5);
             text-align: center;
         }
 
-        /* Грибні нарости на кутах */
+        /* Грибні нарости на кутах панелі */
         .container::before {
             content: "";
             position: absolute;
@@ -96,6 +98,7 @@
             text-shadow: 2px 2px 0 #000;
         }
 
+        /* === КНОПКИ === */
         .link-card {
             display: block;
             background: rgba(255,255,255,0.03);
@@ -117,7 +120,7 @@
             transform: translateX(5px);
         }
 
-        /* СТАТУС БАР */
+        /* === СТАТУС БАР === */
         .health-bar {
             height: 6px;
             width: 100%;
@@ -136,6 +139,7 @@
 
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
 
+        /* === КАНВАС ДЛЯ СПОР === */
         #spores-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -203,6 +207,12 @@
             requestAnimationFrame(animate);
         }
         animate();
+
+        // Оновлюємо канвас, якщо розмір вікна змінюється
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
