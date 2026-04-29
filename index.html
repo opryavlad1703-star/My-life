@@ -3,252 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survival Stats | Vlad</title>
+    <title>Survivalist Profile | Vlad</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
     <style>
+        /* ОСНОВНІ ЗМІННІ КОЛЬОРІВ */
         :root {
-            --fungus: #d9772b;
-            --moss: #3a4b2a;
-            --dark-panel: #0d0f0a;
+            --bg-color: #0a0c08;
+            --main-green: #3e4c2d;
+            --dark-green: #1a230f;
+            --accent-orange: #d48c2a;
+            --text-gray: #b0b0b0;
+            --border-rust: #4a3721;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
             height: 100%;
             width: 100%;
-            font-family: 'Rajdhani', sans-serif;
-            background-color: #000;
-            color: #e0e0e0;
+            background-color: var(--bg-color);
+            font-family: "Press Start 2P", cursive;
+            color: white;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .background-main {
+        /* === ФОНОВІ ШАРИ === */
+        
+        .background-container {
             position: fixed;
-            inset: 0;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('bg.jpg');
-            background-size: cover;
-            background-position: center;
-            z-index: -3;
-            filter: contrast(1.1) brightness(0.8);
-            animation: pulseBg 10s infinite alternate;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
         }
 
-        @keyframes pulseBg {
-            from { filter: contrast(1.1) brightness(0.75); }
-            to { filter: contrast(1.2) brightness(0.9); }
-        }
-
-        .film-grain {
-            position: fixed;
-            inset: 0;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .vines {
-            position: fixed;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 0% 0%, var(--moss) 0%, transparent 30%),
-                radial-gradient(circle at 100% 100%, #1a230e 0%, transparent 35%);
-            mix-blend-mode: multiply;
-            opacity: 0.7;
-            z-index: -2;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            width: 85%;
-            max-width: 380px;
-            padding: 50px 30px;
-            background: rgba(13, 15, 10, 0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 122, 0, 0.2);
-            border-left: 4px solid var(--fungus);
-            box-shadow: 
-                0 0 80px rgba(0,0,0,0.9),
-                0 0 20px rgba(217, 119, 43, 0.2);
-            text-align: center;
-        }
-
-        .container::after {
-            content: "☣";
+        /* Твоя основна картинка */
+        .base-image {
             position: absolute;
-            top: -20px;
-            right: 20px;
-            font-size: 40px;
-            color: var(--fungus);
+            width: 100%;
+            height: 100%;
+            background: url('background.png') no-repeat center center;
+            background-size: cover;
+            filter: brightness(0.4) contrast(1.3) saturate(0.8);
+        }
+
+        /* Віньєтка (затемнення країв) */
+        .vignette {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.9) 100%);
+        }
+
+        /* Текстура бруду на склі */
+        .dirt-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/dust.png');
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Шар ліан та моху */
+        .moss-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
             opacity: 0.2;
+            filter: invert(1) sepia(1) hue-rotate(50deg) brightness(0.3);
+            pointer-events: none;
+        }
+
+        /* === ЦЕНТРАЛЬНИЙ БЛОК === */
+
+        .main-terminal {
+            position: relative;
+            width: 440px;
+            padding: 50px;
+            background: rgba(15, 18, 12, 0.95);
+            border: 3px solid var(--main-green);
+            box-shadow: 
+                0 0 30px rgba(0,0,0,0.8),
+                inset 0 0 15px rgba(62, 76, 45, 0.3);
+            /* Ефект старого паперу/пластику */
+            clip-path: polygon(
+                0% 5%, 3% 0%, 97% 0%, 100% 4%, 
+                100% 94%, 96% 100%, 4% 100%, 0% 96%
+            );
+        }
+
+        /* Декоративні елементи на рамці */
+        .corner-detail {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--accent-orange);
+            opacity: 0.4;
+            filter: blur(4px);
+        }
+        .c-tl { top: 5px; left: 5px; }
+        .c-br { bottom: 5px; right: 5px; }
+
+        header {
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--main-green);
+            padding-bottom: 20px;
         }
 
         h1 {
-            font-size: 38px;
-            margin: 0 0 35px 0;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 2px 2px 0px var(--fungus);
-        }
-
-        .link-card {
-            display: block;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            margin: 15px 0;
-            padding: 20px;
-            text-decoration: none;
-            color: #888;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            transition: all 0.3s;
-        }
-
-        .link-card:hover {
-            background: #222;
-            color: #fff;
-            border-color: var(--fungus);
-            transform: scale(1.03);
-            box-shadow: 
-                -10px 0 0 var(--fungus),
-                0 0 15px rgba(217,119,43,0.4);
-        }
-
-        .status-area {
-            margin-top: 40px;
-            text-align: left;
-            border-top: 1px solid #222;
-            padding-top: 20px;
-        }
-
-        .label {
-            font-size: 11px;
-            color: var(--fungus);
-            margin-bottom: 10px;
+            font-size: 16px;
             letter-spacing: 2px;
+            color: #efefef;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.5);
         }
 
-        .bar-bg {
-            height: 4px;
+        .subtitle {
+            font-size: 8px;
+            color: var(--main-green);
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* === КНОПКИ (LINKS) === */
+
+        .links-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-btn {
+            position: relative;
+            display: block;
+            padding: 20px;
+            background: linear-gradient(90deg, rgba(62, 76, 45, 0.1) 0%, transparent 100%);
+            border: 1px solid var(--dark-green);
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 11px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: "> ";
+            color: var(--accent-orange);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .action-btn:hover {
+            color: var(--accent-orange);
+            border-color: var(--accent-orange);
+            background: rgba(212, 140, 42, 0.05);
+            transform: scale(1.05) rotate(-1deg);
+            padding-left: 30px;
+        }
+
+        .action-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* === СТАТУС-БАР === */
+
+        .status-container {
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .status-label {
+            font-size: 8px;
+            color: var(--main-green);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bg {
+            height: 10px;
             background: #000;
-            width: 100%;
+            border: 1px solid var(--dark-green);
+            position: relative;
         }
 
-        .bar-fill {
+        .progress-fill {
             height: 100%;
-            width: 0%;
-            background: var(--fungus);
-            box-shadow: 0 0 10px var(--fungus);
+            width: 26%;
+            background: var(--main-green);
+            box-shadow: 0 0 15px var(--main-green);
+            animation: flicker 3s infinite;
         }
 
-        #spores {
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+            55% { opacity: 0.9; }
+        }
+
+        /* === ЕФЕКТИ ЧАСТИНОК (КАНВАС) === */
+
+        #particle-canvas {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 5;
         }
 
-        /* зараження */
-        #infection-overlay {
+        /* Ефект шуму (Noise) */
+        .noise-overlay {
             position: fixed;
-            inset: 0;
-            pointer-events: none;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            opacity: 0.15;
             z-index: 20;
-            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9));
-            opacity: 0;
-            transition: 1s;
+            pointer-events: none;
         }
 
-        .infected #infection-overlay {
-            opacity: 1;
-        }
     </style>
 </head>
 <body>
 
-<div class="background-main"></div>
-<div class="vines"></div>
-<div class="film-grain"></div>
-<canvas id="spores"></canvas>
-<div id="infection-overlay"></div>
-
-<div class="container">
-    <h1>SURVIVOR:VLAD</h1>
-    
-    <a href="https://t.me/vladoskarburator" target="_blank" class="link-card">Access Telegram</a>
-    <a href="https://www.instagram.com/opria_vlad/" target="_blank" class="link-card">View Archives</a>
-    <a href="https://www.twitch.tv/vlad1703gg" target="_blank" class="link-card">Twitch Stream</a>
-
-    <div class="status-area">
-        <div class="label">INFECTION LEVEL</div>
-        <div class="bar-bg"><div class="bar-fill"></div></div>
+    <div class="background-container">
+        <div class="base-image"></div>
+        <div class="vignette"></div>
+        <div class="moss-layer"></div>
+        <div class="dirt-overlay"></div>
     </div>
-</div>
 
-<script>
-let infectionLevel = 0;
-const maxInfection = 62;
+    <canvas id="particle-canvas"></canvas>
+    <div class="noise-overlay"></div>
 
-function increaseInfection() {
-    if (infectionLevel < maxInfection) {
-        infectionLevel++;
-        document.querySelector('.bar-fill').style.width = infectionLevel + "%";
+    <main class="main-terminal">
+        <div class="corner-detail c-tl"></div>
+        <div class="corner-detail c-br"></div>
 
-        if (infectionLevel > 50) {
-            document.body.classList.add("infected");
+        <header>
+            <h1>ВЫЖИВШИЙ: VLAD</h1>
+            <div class="subtitle">Location: Sector 17-K</div>
+        </header>
+
+        <nav class="links-group">
+            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">SEND TELEGRAM</a>
+            <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">OPEN ARCHIVE: IG</a>
+            <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">SIGNAL: TWITCH</a>
+        </nav>
+
+        <div class="status-container">
+            <div class="status-label">
+                <span>CORDYCEPS INFECTION</span>
+                <span>26%</span>
+            </div>
+            <div class="progress-bg">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particles = [];
+        const particleCount = 120;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        setTimeout(increaseInfection, 40);
-    }
-}
+        window.addEventListener('resize', resize);
+        resize();
 
-increaseInfection();
+        class Particle {
+            constructor() {
+                this.reset();
+            }
 
-const canvas = document.getElementById('spores');
-const ctx = canvas.getContext('2d');
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 2.5;
+                this.alpha = Math.random() * 0.5;
+                this.color = Math.random() > 0.5 ? '#d48c2a' : '#3e4c2d';
+            }
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
 
-let particles = Array.from({length: 70}, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    v: Math.random() * 0.5 + 0.2,
-    s: Math.random() * 2
-}));
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(217,119,43,0.4)";
-    
-    particles.forEach(p => {
-        p.y -= p.v;
-        if (p.y < 0) p.y = canvas.height;
-        
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-        ctx.fill();
-    });
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.alpha;
+                ctx.fill();
+            }
+        }
 
-    requestAnimationFrame(draw);
-}
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
 
-draw();
-</script>
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
 
 </body>
 </html>
