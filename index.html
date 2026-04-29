@@ -98,32 +98,45 @@
         /* === ЦЕНТРАЛЬНИЙ БЛОК === */
 
        .main-terminal {
-    animation: breathe 6s infinite ease-in-out;
-
-    background: 
-        url('https://www.transparenttextures.com/patterns/grunge-wall.png'),
-        rgba(15, 18, 12, 0.95);
-
     position: relative;
     width: 440px;
     padding: 50px;
-    border: 3px solid var(--main-green);
+
+    background: rgba(10, 14, 10, 0.3);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(120, 180, 80, 0.2);
 
     box-shadow: 
-        0 0 30px rgba(0,0,0,0.8),
-        inset 0 0 15px rgba(62, 76, 45, 0.3);
+        0 0 60px rgba(80, 140, 60, 0.15),
+        inset 0 0 25px rgba(80, 140, 60, 0.08);
 
     clip-path: polygon(
         0% 5%, 3% 0%, 97% 0%, 100% 4%, 
         100% 94%, 96% 100%, 4% 100%, 0% 96%
     );
+
+    transition: 0.5s ease;
 }
-        .main-terminal::after {
+       .main-terminal::after {
     content: "";
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 80% 20%, rgba(255,157,47,0.08), transparent 40%);
-    pointer-events: none;
+    inset: -2px;
+
+    border-radius: 6px;
+
+    background: linear-gradient(
+        120deg,
+        rgba(120,255,120,0.15),
+        transparent 40%,
+        transparent 60%,
+        rgba(255,150,50,0.15)
+    );
+
+    filter: blur(10px);
+    z-index: -1;
 }
         .main-terminal::before {
     content: "";
@@ -138,9 +151,6 @@
     );
     pointer-events: none;
 }
-        .main-terminal:hover {
-    animation: glitch 0.2s infinite;
-}
 
 @keyframes glitch {
     0% { transform: translate(0); }
@@ -152,13 +162,12 @@
 
         /* Декоративні елементи на рамці */
         .corner-detail {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: var(--accent-orange);
-            opacity: 0.4;
-            filter: blur(4px);
-        }
+    width: 20px;
+    height: 2px;
+    background: var(--accent-orange);
+    opacity: 0.6;
+    filter: blur(2px);
+}
         .c-tl { top: 5px; left: 5px; }
         .c-br { bottom: 5px; right: 5px; }
 
