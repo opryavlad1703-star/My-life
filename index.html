@@ -13,11 +13,10 @@
         /* ОСНОВНІ ЗМІННІ */
         :root {
             --bg-color: #0a0c08;
-            --main-green: #6a9c4a; /* Більш яскравий зелений для тексту */
+            --main-green: #4b5e2f;
             --dark-green: #1a230f;
-            --accent-orange: #f28b22; /* Точний відтінок помаранчевого з фото */
-            --text-gray: #d0d0d0;
-            --btn-bg: rgba(22, 28, 22, 0.8); /* Темний фон кнопок */
+            --accent-orange: #ff9d2f;
+            --text-gray: #cfcfcf;
         }
 
         * {
@@ -29,6 +28,7 @@
         body, html {
             height: 100%;
             width: 100%;
+            /* КРИТИЧНО: прибираємо колір фону, щоб він не перекривав картинку */
             background-color: black; 
             font-family: "Press Start 2P", cursive;
             color: white;
@@ -46,6 +46,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            /* КРИТИЧНО: z-index -1, щоб бути над підкладкою, але під контентом */
             z-index: 1; 
         }
 
@@ -53,105 +54,106 @@
             position: absolute;
             width: 100%;
             height: 100%;
+            /* Налаштування картинки */
             background: 
-                linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
                 url('background.png') no-repeat center center;
             background-size: cover;
+            /* Зробили трохи яскравіше, щоб точно бачити результат */
+            filter: brightness(0.7) contrast(1.1);
         }
 
         .vignette {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, transparent 10%, rgba(0,0,0,0.85) 100%);
+            background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.8) 100%);
             z-index: 2;
+        }
+
+        .dirt-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/dust.png');
+            opacity: 0.2;
+            z-index: 3;
+            pointer-events: none;
         }
 
         /* === ЦЕНТРАЛЬНИЙ БЛОК === */
 
         .main-terminal {
             position: relative;
-            width: 480px; 
-            padding: 45px 40px;
-            /* На фото 1 фон темний, майже непрозорий, без сильного блюру */
-            background: rgba(10, 12, 10, 0.85); 
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px);
-            
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            border-radius: 2px; 
-            z-index: 100;
+            width: 440px;
+            padding: 50px;
+            background: rgba(10, 14, 10, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(120, 180, 80, 0.3);
+            z-index: 100; /* Контент завжди зверху */
 
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            clip-path: polygon(
+                0% 5%, 3% 0%, 97% 0%, 100% 4%, 
+                100% 94%, 96% 100%, 4% 100%, 0% 96%
+            );
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
 
-        /* Точні помаранчеві куточки по краях панелі */
         .corner-detail {
             position: absolute;
-            width: 12px;
-            height: 12px;
-            border-color: var(--accent-orange);
-            border-style: solid;
+            width: 20px;
+            height: 2px;
+            background: var(--accent-orange);
+            opacity: 0.8;
         }
-        .c-tl { 
-            top: -1px; 
-            left: -1px; 
-            border-width: 2px 0 0 2px; 
-        }
-        .c-br { 
-            bottom: -1px; 
-            right: -1px; 
-            border-width: 0 2px 2px 0; 
-        }
+        .c-tl { top: 10px; left: 10px; }
+        .c-br { bottom: 10px; right: 10px; }
 
-        /* Заголовок і лінія під ним */
         header {
-            margin-bottom: 25px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--main-green);
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(80, 110, 60, 0.4); /* Тонка зелена лінія як на фото */
-            text-align: left;
         }
 
         h1 {
             font-size: 16px;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin-bottom: 12px;
-            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #efefef;
         }
 
         .subtitle {
             font-size: 8px;
             color: var(--main-green);
+            margin-top: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        /* КНОПКИ (Точно як на фото 1) */
+        /* КНОПКИ */
         .links-group {
             display: flex;
             flex-direction: column;
-            gap: 10px; /* Менша відстань між кнопками */
+            gap: 15px;
         }
 
         .action-btn {
             position: relative;
             display: block;
-            padding: 16px 20px;
-            background: var(--btn-bg); 
-            border: 1px solid rgba(255, 255, 255, 0.05); /* Ледь помітна рамка */
+            padding: 18px;
+            background: rgba(62, 76, 45, 0.2);
+            border: 1px solid var(--dark-green);
             text-decoration: none;
             color: var(--text-gray);
             font-size: 10px;
-            transition: all 0.2s ease;
-            text-align: left;
+            transition: 0.3s;
         }
 
         .action-btn:hover {
-            color: #ffffff;
-            background: rgba(40, 50, 35, 0.8);
-            border-color: rgba(106, 156, 74, 0.5);
-            transform: translateX(3px);
+            color: var(--accent-orange);
+            border-color: var(--accent-orange);
+            background: rgba(212, 140, 42, 0.1);
+            padding-left: 25px;
+            transform: translateX(5px);
         }
 
         /* СТАТУС-БАР */
@@ -162,34 +164,48 @@
         .status-label {
             font-size: 8px;
             color: var(--main-green);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
-            letter-spacing: 0.5px;
         }
 
         .progress-bg {
-            height: 8px; /* Тонша смужка як на фото */
-            background: #050605;
-            border: 1px solid rgba(40, 50, 30, 0.5);
+            height: 12px;
+            background: #000;
+            border: 1px solid var(--dark-green);
         }
 
         .progress-fill {
             height: 100%;
             width: 26%;
-            background: #7db840; /* Специфічний "токсичний" зелений */
-            box-shadow: 0 0 10px rgba(125, 184, 64, 0.4);
+            background: var(--main-green);
+            box-shadow: 0 0 10px var(--main-green);
+            animation: flicker 3s infinite;
         }
 
-        /* ЧАСТИНКИ */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
         #particle-canvas {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 10;
-            opacity: 0.8;
         }
 
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            opacity: 0.1;
+            z-index: 50;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -197,9 +213,11 @@
     <div class="background-container">
         <div class="base-image"></div>
         <div class="vignette"></div>
+        <div class="dirt-overlay"></div>
     </div>
 
     <canvas id="particle-canvas"></canvas>
+    <div class="noise-overlay"></div>
 
     <main class="main-terminal">
         <div class="corner-detail c-tl"></div>
@@ -244,10 +262,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.15;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.alpha = Math.random() * 0.5 + 0.1;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
             }
             update() {
                 this.x += this.vx; this.y += this.vy;
@@ -256,13 +274,13 @@
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#8dc63f';
+                ctx.fillStyle = '#4b5e2f';
                 ctx.globalAlpha = this.alpha;
                 ctx.fill();
             }
         }
 
-        for (let i = 0; i < 60; i++) particles.push(new Particle());
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
