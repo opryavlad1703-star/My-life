@@ -13,10 +13,10 @@
         /* ОСНОВНІ ЗМІННІ */
         :root {
             --bg-color: #0a0c08;
-            --main-green: #4b5e2f;
-            --dark-green: #1a230f;
-            --accent-orange: #ff9d2f;
-            --text-gray: #cfcfcf;
+            --main-green: #6b8243; /* Трохи світліший зелений для кращого контрасту */
+            --dark-green: #2a3a1f;
+            --accent-orange: #d47e2a; /* Приглушений оранжевий як на фото */
+            --text-white: #efefef;
         }
 
         * {
@@ -38,7 +38,6 @@
         }
 
         /* === ФОНОВІ ШАРИ === */
-        
         .background-container {
             position: fixed;
             top: 0;
@@ -54,7 +53,7 @@
             height: 100%;
             background: 
                 linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
-                url('background.png') no-repeat center center;
+                url('background.png') no-repeat center center; /* Твоя картинка фону */
             background-size: cover;
             filter: brightness(0.7) contrast(1.1);
         }
@@ -77,113 +76,117 @@
             pointer-events: none;
         }
 
-        /* === ЦЕНТРАЛЬНИЙ БЛОК === */
-
+        /* === ЦЕНТРАЛЬНИЙ БЛОК (ТАБЛИЧКА) === */
         .main-terminal {
             position: relative;
-            width: 440px;
-            padding: 50px;
-            background: rgba(10, 14, 10, 0.6);
+            width: 460px; /* Трохи ширше */
+            padding: 40px;
+            background: rgba(12, 16, 12, 0.85); /* Темніший, менш прозорий фон */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(120, 180, 80, 0.3);
+            border: 1px solid rgba(107, 130, 67, 0.4); /* Тонка зелена рамка */
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
             z-index: 100;
-
-            clip-path: polygon(
-                0% 5%, 3% 0%, 97% 0%, 100% 4%, 
-                100% 94%, 96% 100%, 4% 100%, 0% 96%
-            );
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
 
+        /* Кутові оранжеві дужки */
         .corner-detail {
             position: absolute;
-            width: 20px;
-            height: 2px;
-            background: var(--accent-orange);
-            opacity: 0.8;
+            width: 15px;
+            height: 15px;
+            border-color: var(--accent-orange);
+            border-style: solid;
         }
-        .c-tl { top: 10px; left: 10px; }
-        .c-br { bottom: 10px; right: 10px; }
+        /* Лівий верхній кут */
+        .c-tl { 
+            top: -1px; 
+            left: -1px; 
+            border-width: 2px 0 0 2px; 
+        }
+        /* Правий нижній кут */
+        .c-br { 
+            bottom: -1px; 
+            right: -1px; 
+            border-width: 0 2px 2px 0; 
+        }
 
+        /* === ШАПКА === */
         header {
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--main-green);
-            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(107, 130, 67, 0.4);
+            padding-bottom: 15px;
         }
 
         h1 {
             font-size: 16px;
             letter-spacing: 2px;
-            color: #efefef;
+            color: var(--text-white);
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
 
         .subtitle {
             font-size: 8px;
             color: var(--main-green);
-            margin-top: 10px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* КНОПКИ */
+        /* === КНОПКИ === */
         .links-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .action-btn {
-            position: relative;
             display: block;
-            padding: 18px;
-            background: rgba(62, 76, 45, 0.2);
-            border: 1px solid var(--dark-green);
+            padding: 15px 20px;
+            background: rgba(42, 58, 31, 0.15);
+            border: 1px solid rgba(107, 130, 67, 0.3);
             text-decoration: none;
-            color: var(--text-gray);
+            color: var(--text-white);
             font-size: 10px;
-            transition: 0.3s;
+            text-align: left; /* Вирівнювання як на фото */
+            letter-spacing: 1px;
+            transition: 0.3s ease;
         }
 
         .action-btn:hover {
-            color: var(--accent-orange);
-            border-color: var(--accent-orange);
-            background: rgba(212, 140, 42, 0.1);
-            padding-left: 25px;
-            transform: translateX(5px);
+            color: #fff;
+            border-color: var(--main-green);
+            background: rgba(107, 130, 67, 0.2);
+            padding-left: 25px; /* Легкий зсув тексту при наведенні */
         }
 
-        /* СТАТУС-БАР */
+        /* === СТАТУС-БАР === */
         .status-container {
-            margin-top: 40px;
+            margin-top: 35px;
         }
 
         .status-label {
-            font-size: 8px;
+            font-size: 7px;
             color: var(--main-green);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
+            letter-spacing: 1px;
         }
 
         .progress-bg {
-            height: 12px;
-            background: #000;
-            border: 1px solid var(--dark-green);
+            height: 6px; /* Більш тонка смуга завантаження */
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(107, 130, 67, 0.4);
         }
 
         .progress-fill {
             height: 100%;
-            width: 26%;
+            width: 23%; /* Змінено на 23% за референсом */
             background: var(--main-green);
-            box-shadow: 0 0 10px var(--main-green);
-            animation: flicker 3s infinite;
+            box-shadow: 0 0 5px var(--main-green);
         }
 
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
+        /* === ЧАСТИНКИ ТА ШУМ === */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -221,19 +224,19 @@
 
         <header>
             <h1>SURVIVOR: VLAD</h1>
-            <div class="subtitle">Location: Sector 17-K</div>
+            <div class="subtitle">LOCATION: SECTOR 17-K</div>
         </header>
 
         <nav class="links-group">
-            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">> SEND TELEGRAM</a>
-            <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">> OPEN ARCHIVE: INSTAGRAM</a>
-            <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">> SIGNAL: TWITCH</a>
+            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">&gt; SEND TELEGRAM</a>
+            <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">&gt; OPEN ARCHIVE: INSTAGRAM</a>
+            <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">&gt; SIGNAL: TWITCH</a>
         </nav>
 
         <div class="status-container">
             <div class="status-label">
-                <span>CORDYCEPS INFECTION</span>
-                <span>26%</span>
+                <span>CKDXT M90-MTX 119PCS17 720N</span>
+                <span>23%</span>
             </div>
             <div class="progress-bg">
                 <div class="progress-fill"></div>
@@ -241,7 +244,7 @@
         </div>
     </main>
 
-   <script>
+    <script>
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -265,7 +268,6 @@
                 this.x = Math.random() * canvas.width;
                 this.y = initial ? Math.random() * canvas.height : canvas.height + 20;
                 
-                // Швидкість: дуже повільна, щоб створювати ефект зависання
                 this.vx = (Math.random() - 0.5) * 0.3;
                 this.vy = (Math.random() * -0.4) - 0.1; 
                 
@@ -273,22 +275,17 @@
                 this.alpha = Math.random() * 0.5 + 0.1;
                 this.color = sporeColors[Math.floor(Math.random() * sporeColors.length)];
                 
-                // Параметри для "тремтіння" повітря
                 this.wobble = Math.random() * Math.PI * 2;
                 this.wobbleSpeed = Math.random() * 0.05;
                 
-                // Глибина різкості: чим далі (менше), тим більше розмиття
                 this.blur = this.size < 1.2 ? Math.random() * 2 : 0;
             }
             
             update() {
                 this.wobble += this.wobbleSpeed;
-                
-                // Рух з урахуванням легкого "тремтіння"
                 this.x += this.vx + Math.cos(this.wobble) * 0.2;
                 this.y += this.vy;
                 
-                // Плавне мерехтіння
                 this.alpha += (Math.random() - 0.5) * 0.02;
                 if (this.alpha <= 0) this.alpha = 0.1;
                 if (this.alpha > 0.6) this.alpha = 0.6;
@@ -301,7 +298,6 @@
                 ctx.globalAlpha = this.alpha;
                 ctx.fillStyle = this.color;
                 
-                // Якщо спора маленька, робимо її розмитою (ефект фокусу камери)
                 if (this.blur > 0) {
                     ctx.filter = `blur(${this.blur}px)`;
                 }
@@ -309,7 +305,6 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 
-                // Додаємо легке світіння тільки для великих спор
                 if (this.size > 1.8) {
                     ctx.shadowBlur = 5;
                     ctx.shadowColor = this.color;
@@ -320,13 +315,10 @@
             }
         }
 
-        // Кількість спор: 150 для густої атмосфери
         for (let i = 0; i < 150; i++) particles.push(new Particle());
 
         function animate() {
-            // Очищення з легким слідом (за бажанням можна замінити на повне очищення)
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             particles.forEach(p => { 
                 p.update(); 
                 p.draw(); 
