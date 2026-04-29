@@ -28,53 +28,34 @@
             align-items: center;
         }
 
-        /* === ФОН === */
         .background-main {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
+            inset: 0;
             background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('bg.jpg');
             background-size: cover;
             background-position: center;
-
             z-index: -3;
-
             filter: contrast(1.1) brightness(0.8);
             animation: pulseBg 10s infinite alternate;
         }
 
         @keyframes pulseBg {
-            from {
-                filter: contrast(1.1) brightness(0.75);
-            }
-            to {
-                filter: contrast(1.2) brightness(0.9);
-            }
+            from { filter: contrast(1.1) brightness(0.75); }
+            to { filter: contrast(1.2) brightness(0.9); }
         }
 
-        /* шум */
         .film-grain {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             opacity: 0.15;
             pointer-events: none;
             z-index: -1;
         }
 
-        /* ліани */
         .vines {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: 
                 radial-gradient(circle at 0% 0%, var(--moss) 0%, transparent 30%),
                 radial-gradient(circle at 100% 100%, #1a230e 0%, transparent 35%);
@@ -83,24 +64,19 @@
             z-index: -2;
         }
 
-        /* панель */
         .container {
             position: relative;
             z-index: 10;
             width: 85%;
             max-width: 380px;
             padding: 50px 30px;
-
             background: rgba(13, 15, 10, 0.85);
             backdrop-filter: blur(8px);
-
             border: 1px solid rgba(255, 122, 0, 0.2);
             border-left: 4px solid var(--fungus);
-
             box-shadow: 
                 0 0 80px rgba(0,0,0,0.9),
                 0 0 20px rgba(217, 119, 43, 0.2);
-
             text-align: center;
         }
 
@@ -123,7 +99,6 @@
             text-shadow: 2px 2px 0px var(--fungus);
         }
 
-        /* кнопки */
         .link-card {
             display: block;
             background: #1a1a1a;
@@ -149,12 +124,6 @@
                 0 0 15px rgba(217,119,43,0.4);
         }
 
-        .link-card:active {
-            transform: scale(0.97);
-            box-shadow: 0 0 20px var(--fungus);
-        }
-
-        /* статус */
         .status-area {
             margin-top: 40px;
             text-align: left;
@@ -177,78 +146,109 @@
 
         .bar-fill {
             height: 100%;
-            width: 62%;
+            width: 0%;
             background: var(--fungus);
             box-shadow: 0 0 10px var(--fungus);
         }
 
-        /* спори */
         #spores {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 5;
+        }
+
+        /* зараження */
+        #infection-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
+            background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.9));
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .infected #infection-overlay {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
 
-    <div class="background-main"></div>
-    <div class="vines"></div>
-    <div class="film-grain"></div>
-    <canvas id="spores"></canvas>
+<div class="background-main"></div>
+<div class="vines"></div>
+<div class="film-grain"></div>
+<canvas id="spores"></canvas>
+<div id="infection-overlay"></div>
 
-    <div class="container">
-        <h1>SURVIVOR:VLAD</h1>
-        
-        <a href="https://t.me/vladoskarburator" target="_blank" class="link-card">Access Telegram</a>
-        <a href="https://www.instagram.com/opria_vlad/" target="_blank" class="link-card">View Archives</a>
-        <a href="https://www.twitch.tv/vlad1703gg" target="_blank" class="link-card">Twitch Stream</a>
+<div class="container">
+    <h1>SURVIVOR:VLAD</h1>
+    
+    <a href="https://t.me/vladoskarburator" target="_blank" class="link-card">Access Telegram</a>
+    <a href="https://www.instagram.com/opria_vlad/" target="_blank" class="link-card">View Archives</a>
+    <a href="https://www.twitch.tv/vlad1703gg" target="_blank" class="link-card">Twitch Stream</a>
 
-        <div class="status-area">
-            <div class="label">INFECTION LEVEL: 62% / STATUS: CRITICAL</div>
-            <div class="bar-bg"><div class="bar-fill"></div></div>
-        </div>
+    <div class="status-area">
+        <div class="label">INFECTION LEVEL</div>
+        <div class="bar-bg"><div class="bar-fill"></div></div>
     </div>
+</div>
 
-    <script>
-        const canvas = document.getElementById('spores');
-        const ctx = canvas.getContext('2d');
+<script>
+let infectionLevel = 0;
+const maxInfection = 62;
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+function increaseInfection() {
+    if (infectionLevel < maxInfection) {
+        infectionLevel++;
+        document.querySelector('.bar-fill').style.width = infectionLevel + "%";
 
-        let particles = [];
-        for(let i=0; i<70; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                v: Math.random() * 0.5 + 0.2,
-                s: Math.random() * 2
-            });
+        if (infectionLevel > 50) {
+            document.body.classList.add("infected");
         }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(217, 119, 43, 0.4)";
-            particles.forEach(p => {
-                p.y -= p.v;
-                if(p.y < 0) p.y = canvas.height;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
-                ctx.fill();
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
+        setTimeout(increaseInfection, 40);
+    }
+}
+
+increaseInfection();
+
+const canvas = document.getElementById('spores');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let particles = Array.from({length: 70}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    v: Math.random() * 0.5 + 0.2,
+    s: Math.random() * 2
+}));
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(217,119,43,0.4)";
+    
+    particles.forEach(p => {
+        p.y -= p.v;
+        if (p.y < 0) p.y = canvas.height;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
 
 </body>
 </html>
