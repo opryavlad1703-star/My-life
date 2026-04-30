@@ -325,44 +325,33 @@
                 if (this.y < -20) this.reset();
             }
             
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = this.color;
-                
-                // Якщо спора маленька, робимо її розмитою (ефект фокусу камери)
-                if (this.blur > 0) {
-                    ctx.filter = `blur(${this.blur}px)`;
-                }
-
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                
-                // Додаємо легке світіння тільки для великих спор
-                if (this.size > 1.8) {
-                    ctx.shadowBlur = 5;
-                    ctx.shadowColor = this.color;
-                }
-
-                ctx.fill();
-                ctx.restore();
-            }
+            // 1. Оновлений метод малювання (без фільтрів і тіней)
+        draw() {
+            ctx.beginPath();
+            ctx.globalAlpha = this.alpha;
+            ctx.fillStyle = this.color;
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+            // Ми прибрали save(), restore(), filter та shadowBlur
         }
+    }
 
-        // Кількість спор: 150 для густої атмосфери
-        for (let i = 0; i < 150; i++) particles.push(new Particle());
+    // 2. Оптимальна кількість спор: 70-80 достатньо для атмосфери, але вдвічі легше для GPU
+    for (let i = 0; i < 80; i++) particles.push(new Particle());
 
-        function animate() {
-            // Очищення з легким слідом (за бажанням можна замінити на повне очищення)
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            particles.forEach(p => { 
-                p.update(); 
-                p.draw(); 
-            });
-            requestAnimationFrame(animate);
+    // 3. Швидка функція анімації
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Використовуємо звичайний цикл for — він швидший за forEach
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
         }
-        animate();
+        
+        requestAnimationFrame(animate);
+    }
+    animate();
     </script>
 
 </body>
