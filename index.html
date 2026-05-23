@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- ПІДКЛЮЧЕННЯ ІКОНОК -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* ОСНОВНІ ЗМІННІ */
@@ -38,7 +40,6 @@
         }
 
         /* === ФОНОВІ ШАРИ === */
-        
         .background-container {
             position: fixed;
             top: 0;
@@ -82,18 +83,12 @@
             position: relative;
             width: 460px;
             padding: 40px;
-            /* Зробили прозорішим (0.45 замість 0.85), колір темний зеленкувато-чорний */
             background: rgba(10, 14, 10, 0.45); 
-            /* Зменшили розмиття до 2px, щоб фон кімнати було добре видно */
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
-            border: 1px solid rgba(107, 130, 67, 0.5); /* Трохи яскравіша рамка */
-            /* Додали тінь навколо + легке внутрішнє зелене світіння (inset), щоб "вписати" в кімнату */
+            border: 1px solid rgba(107, 130, 67, 0.5);
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(107, 130, 67, 0.1);
             z-index: 100;
-        }
-            );
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
 
         .corner-detail {
@@ -134,7 +129,9 @@
 
         .action-btn {
             position: relative;
-            display: block;
+            display: flex;             /* Змінено на flex для рівного вирівнювання іконок */
+            align-items: center;       /* Центрування по вертикалі */
+            gap: 15px;                 /* Відступ між іконкою та текстом */
             padding: 18px;
             background: rgba(62, 76, 45, 0.2);
             border: 1px solid var(--dark-green);
@@ -144,12 +141,24 @@
             transition: 0.3s;
         }
 
+        /* Стиль для іконок */
+        .action-btn .btn-icon {
+            font-size: 14px;           /* Трохи більші за піксельний шрифт сторінки */
+            color: var(--main-green);  /* Тьмяно-зелений колір військового інтерфейсу */
+            transition: 0.3s;
+        }
+
         .action-btn:hover {
             color: var(--accent-orange);
             border-color: var(--accent-orange);
             background: rgba(212, 140, 42, 0.1);
             padding-left: 25px;
             transform: translateX(5px);
+        }
+
+        /* Зміна кольору іконки при наведенні */
+        .action-btn:hover .btn-icon {
+            color: var(--accent-orange);
         }
 
         /* СТАТУС-БАР */
@@ -202,29 +211,35 @@
             z-index: 50;
             pointer-events: none;
         }
+
         /* === АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНІВ === */
         @media (max-width: 480px) {
             body, html {
-                overflow-y: auto; /* Дозволяємо гортати вниз, якщо контент не влазить */
-                align-items: flex-start; /* Вирівнюємо по верхньому краю */
+                overflow-y: auto;
+                align-items: flex-start;
                 padding: 20px 0;
             }
 
             .main-terminal {
-                width: 92%; /* Табличка займає майже всю ширину */
+                width: 92%;
                 max-width: none;
-                padding: 30px 20px; /* Менші відступи всередині */
+                padding: 30px 20px;
                 margin: 20px auto;
             }
 
             h1 {
-                font-size: 13px; /* Трохи менший заголовок */
+                font-size: 13px;
                 line-height: 1.4;
             }
 
             .action-btn {
                 padding: 14px 15px;
                 font-size: 9px;
+                gap: 12px;
+            }
+
+            .action-btn .btn-icon {
+                font-size: 12px;
             }
 
             .subtitle, .status-label {
@@ -253,17 +268,18 @@
             <div class="subtitle">Location: Sector 17-K</div>
         </header>
 
+        <!-- ОНОВЛЕНІ КНОПКИ ЗІ ЗНАЧКАМИ -->
         <nav class="links-group">
-    <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">
-        <i class="fa-brands fa-telegram btn-icon"></i> SEND: TELEGRAM
-    </a>
-    <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">
-        <i class="fa-brands fa-instagram btn-icon"></i> OPEN ARCHIVE: INSTAGRAM
-    </a>
-    <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">
-        <i class="fa-brands fa-twitch btn-icon"></i> SIGNAL: TWITCH
-    </a>
-</nav>
+            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">
+                <i class="fa-solid fa-paper-plane btn-icon"></i> SEND TELEGRAM
+            </a>
+            <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">
+                <i class="fa-solid fa-box-archive btn-icon"></i> OPEN ARCHIVE: INSTAGRAM
+            </a>
+            <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">
+                <i class="fa-solid fa-tower-cell btn-icon"></i> SIGNAL: TWITCH
+            </a>
+        </nav>
 
         <div class="status-container">
             <div class="status-label">
@@ -288,7 +304,6 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Палітра: пильно-зелений, тьмяно-жовтий, колір цвілі
         const sporeColors = ['#7a8c5a', '#9eb07a', '#c9b16d', '#4d5c36'];
 
         class Particle {
@@ -299,65 +314,46 @@
             reset(initial = false) {
                 this.x = Math.random() * canvas.width;
                 this.y = initial ? Math.random() * canvas.height : canvas.height + 20;
-                
-                // Швидкість: дуже повільна, щоб створювати ефект зависання
                 this.vx = (Math.random() - 0.5) * 0.3;
                 this.vy = (Math.random() * -0.4) - 0.1; 
-                
                 this.size = Math.random() * 2.5 + 0.5;
                 this.alpha = Math.random() * 0.5 + 0.1;
                 this.color = sporeColors[Math.floor(Math.random() * sporeColors.length)];
-                
-                // Параметри для "тремтіння" повітря
                 this.wobble = Math.random() * Math.PI * 2;
                 this.wobbleSpeed = Math.random() * 0.05;
-                
-                // Глибина різкості: чим далі (менше), тим більше розмиття
                 this.blur = this.size < 1.2 ? Math.random() * 2 : 0;
             }
             
             update() {
                 this.wobble += this.wobbleSpeed;
-                
-                // Рух з урахуванням легкого "тремтіння"
                 this.x += this.vx + Math.cos(this.wobble) * 0.2;
                 this.y += this.vy;
-                
-                // Плавне мерехтіння
                 this.alpha += (Math.random() - 0.5) * 0.02;
                 if (this.alpha <= 0) this.alpha = 0.1;
                 if (this.alpha > 0.6) this.alpha = 0.6;
-
                 if (this.y < -20) this.reset();
             }
             
-            // 1. Оновлений метод малювання (без фільтрів і тіней)
-        draw() {
-            ctx.beginPath();
-            ctx.globalAlpha = this.alpha;
-            ctx.fillStyle = this.color;
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-            // Ми прибрали save(), restore(), filter та shadowBlur
+            draw() {
+                ctx.beginPath();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
-    }
 
-    // 2. Оптимальна кількість спор: 70-80 достатньо для атмосфери, але вдвічі легше для GPU
-    for (let i = 0; i < 80; i++) particles.push(new Particle());
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
 
-    // 3. Швидка функція анімації
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Використовуємо звичайний цикл for — він швидший за forEach
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animate);
         }
-        
-        requestAnimationFrame(animate);
-    }
-    animate();
+        animate();
     </script>
 
 </body>
