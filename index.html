@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <!-- ПІДКЛЮЧЕННЯ ІКОНОК -->
+    
+    <!-- Підключення нормальних значків (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -86,7 +87,7 @@
             background: rgba(10, 14, 10, 0.45); 
             backdrop-filter: blur(2px);
             -webkit-backdrop-filter: blur(2px);
-            border: 1px solid rgba(107, 130, 67, 0.5);
+            border: 1px solid rgba(107, 130, 67, 0.5); 
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(107, 130, 67, 0.1);
             z-index: 100;
         }
@@ -120,7 +121,7 @@
             text-transform: uppercase;
         }
 
-        /* КНОПКИ */
+        /* === КНОПКИ З НОРМАЛЬНИМИ ЗНАЧКАМИ === */
         .links-group {
             display: flex;
             flex-direction: column;
@@ -129,36 +130,42 @@
 
         .action-btn {
             position: relative;
-            display: flex;             /* Змінено на flex для рівного вирівнювання іконок */
-            align-items: center;       /* Центрування по вертикалі */
-            gap: 15px;                 /* Відступ між іконкою та текстом */
-            padding: 18px;
-            background: rgba(62, 76, 45, 0.2);
-            border: 1px solid var(--dark-green);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 18px;
+            /* Робимо фон кнопки схожим на стару брудну табличку */
+            background: rgba(20, 25, 15, 0.6); 
+            border: 1px solid #3a4729;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            border-radius: 4px;
             text-decoration: none;
             color: var(--text-gray);
             font-size: 10px;
             transition: 0.3s;
         }
 
-        /* Стиль для іконок */
+        /* Стиль для іконок (Telegram, Insta, Twitch) */
         .action-btn .btn-icon {
-            font-size: 14px;           /* Трохи більші за піксельний шрифт сторінки */
-            color: var(--main-green);  /* Тьмяно-зелений колір військового інтерфейсу */
+            font-size: 22px; /* Робимо їх великими і помітними */
+            color: #6a7c4f; /* Тьмяний військовий колір, ніби вони вицвіли */
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); /* Тінь для об'єму */
             transition: 0.3s;
+            width: 30px;
+            text-align: center;
         }
 
         .action-btn:hover {
-            color: var(--accent-orange);
+            background: rgba(45, 55, 30, 0.8);
             border-color: var(--accent-orange);
-            background: rgba(212, 140, 42, 0.1);
+            color: #fff;
             padding-left: 25px;
-            transform: translateX(5px);
         }
 
-        /* Зміна кольору іконки при наведенні */
         .action-btn:hover .btn-icon {
-            color: var(--accent-orange);
+            color: var(--accent-orange); /* Спалахують помаранчевим при наведенні */
+            filter: drop-shadow(0 0 5px rgba(255, 157, 47, 0.5));
+            transform: scale(1.1);
         }
 
         /* СТАТУС-БАР */
@@ -233,13 +240,14 @@
             }
 
             .action-btn {
-                padding: 14px 15px;
+                padding: 12px 15px;
                 font-size: 9px;
-                gap: 12px;
+                gap: 10px;
             }
 
             .action-btn .btn-icon {
-                font-size: 12px;
+                font-size: 18px;
+                width: 25px;
             }
 
             .subtitle, .status-label {
@@ -268,16 +276,15 @@
             <div class="subtitle">Location: Sector 17-K</div>
         </header>
 
-        <!-- ОНОВЛЕНІ КНОПКИ ЗІ ЗНАЧКАМИ -->
         <nav class="links-group">
             <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">
-                <i class="fa-solid fa-paper-plane btn-icon"></i> SEND TELEGRAM
+                <i class="fa-brands fa-telegram btn-icon"></i> SEND TELEGRAM
             </a>
             <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">
-                <i class="fa-solid fa-box-archive btn-icon"></i> OPEN ARCHIVE: INSTAGRAM
+                <i class="fa-brands fa-instagram btn-icon"></i> OPEN INSTAGRAM
             </a>
             <a href="https://www.twitch.tv/vlad1703gg" class="action-btn" target="_blank">
-                <i class="fa-solid fa-tower-cell btn-icon"></i> SIGNAL: TWITCH
+                <i class="fa-brands fa-twitch btn-icon"></i> SIGNAL: TWITCH
             </a>
         </nav>
 
