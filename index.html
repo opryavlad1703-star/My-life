@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     
-    <!-- Підключення нормальних значків (Font Awesome) -->
+    <!-- Підключення значків (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -121,7 +121,7 @@
             text-transform: uppercase;
         }
 
-        /* === КНОПКИ З НОРМАЛЬНИМИ ЗНАЧКАМИ === */
+        /* === КНОПКИ ЗІ ЗНАЧКАМИ === */
         .links-group {
             display: flex;
             flex-direction: column;
@@ -134,7 +134,6 @@
             align-items: center;
             gap: 15px;
             padding: 15px 18px;
-            /* Робимо фон кнопки схожим на стару брудну табличку */
             background: rgba(20, 25, 15, 0.6); 
             border: 1px solid #3a4729;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
@@ -145,11 +144,11 @@
             transition: 0.3s;
         }
 
-        /* Стиль для іконок (Telegram, Insta, Twitch) */
+        /* Стиль для іконок */
         .action-btn .btn-icon {
-            font-size: 22px; /* Робимо їх великими і помітними */
-            color: #6a7c4f; /* Тьмяний військовий колір, ніби вони вицвіли */
-            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); /* Тінь для об'єму */
+            font-size: 20px; 
+            color: #6a7c4f; /* Вицвілий зелений тон */
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); 
             transition: 0.3s;
             width: 30px;
             text-align: center;
@@ -163,7 +162,7 @@
         }
 
         .action-btn:hover .btn-icon {
-            color: var(--accent-orange); /* Спалахують помаранчевим при наведенні */
+            color: var(--accent-orange); /* Спалах помаранчевим при наведенні */
             filter: drop-shadow(0 0 5px rgba(255, 157, 47, 0.5));
             transform: scale(1.1);
         }
@@ -277,8 +276,9 @@
         </header>
 
         <nav class="links-group">
+            <!-- Telegram з чистим літачком без кругів -->
             <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">
-                <i class="fa-brands fa-telegram btn-icon"></i> SEND TELEGRAM
+                <i class="fa-solid fa-paper-plane btn-icon"></i> SEND TELEGRAM
             </a>
             <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">
                 <i class="fa-brands fa-instagram btn-icon"></i> OPEN INSTAGRAM
