@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     
-    <!-- Підключення значків (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -29,15 +28,17 @@
         }
 
         body, html {
-            height: 100%;
+            min-height: 100vh; /* Виправив для того, щоб не обрізалося на телефонах */
             width: 100%;
             background-color: black; 
             font-family: "Press Start 2P", cursive;
             color: white;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto; /* Дозволив скрол по вертикалі */
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px 0; /* Трохи відступів зверху і знизу */
         }
 
         /* === ФОНОВІ ШАРИ === */
@@ -147,7 +148,7 @@
         /* Стиль для іконок */
         .action-btn .btn-icon {
             font-size: 20px; 
-            color: #6a7c4f; /* Вицвілий зелений тон */
+            color: #6a7c4f; 
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.8)); 
             transition: 0.3s;
             width: 30px;
@@ -162,7 +163,7 @@
         }
 
         .action-btn:hover .btn-icon {
-            color: var(--accent-orange); /* Спалах помаранчевим при наведенні */
+            color: var(--accent-orange); 
             filter: drop-shadow(0 0 5px rgba(255, 157, 47, 0.5));
             transform: scale(1.1);
         }
@@ -178,6 +179,7 @@
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
+            transition: color 0.3s ease;
         }
 
         .progress-bg {
@@ -188,10 +190,11 @@
 
         .progress-fill {
             height: 100%;
-            width: 26%;
+            width: 0%; /* Початкова ширина 0 для анімації */
             background: var(--main-green);
             box-shadow: 0 0 10px var(--main-green);
             animation: flicker 3s infinite;
+            transition: width 0.1s linear, background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         @keyframes flicker {
@@ -220,17 +223,11 @@
 
         /* === АДАПТИВНІСТЬ ДЛЯ ТЕЛЕФОНІВ === */
         @media (max-width: 480px) {
-            body, html {
-                overflow-y: auto;
-                align-items: flex-start;
-                padding: 20px 0;
-            }
-
             .main-terminal {
                 width: 92%;
                 max-width: none;
                 padding: 30px 20px;
-                margin: 20px auto;
+                margin: 0 auto;
             }
 
             h1 {
@@ -276,11 +273,9 @@
         </header>
 
         <nav class="links-group">
-            <!-- Telegram з чистим літачком без кругів -->
-            <!-- Зменшили font-size саме для цієї іконки до 17px, щоб вирівняти візуальну вагу -->
-<a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">
-    <i class="fa-solid fa-paper-plane btn-icon" style="font-size: 17px;"></i> SEND: TELEGRAM
-</a>
+            <a href="https://t.me/vladoskarburator" class="action-btn" target="_blank">
+                <i class="fa-solid fa-paper-plane btn-icon" style="font-size: 17px;"></i> SEND: TELEGRAM
+            </a>
             <a href="https://www.instagram.com/opria_vlad/" class="action-btn" target="_blank">
                 <i class="fa-brands fa-instagram btn-icon"></i> ARCHIVE: INSTAGRAM
             </a>
@@ -290,17 +285,18 @@
         </nav>
 
         <div class="status-container">
-            <div class="status-label">
+            <div class="status-label" id="infection-label">
                 <span>CORDYCEPS INFECTION</span>
-                <span>26%</span>
+                <span id="infection-value">0%</span>
             </div>
             <div class="progress-bg">
-                <div class="progress-fill"></div>
+                <div class="progress-fill" id="infection-bar"></div>
             </div>
         </div>
     </main>
 
-   <script>
+    <script>
+        // === АНІМАЦІЯ СПОР (Сніг кордицепсу) ===
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -362,6 +358,36 @@
             requestAnimationFrame(animate);
         }
         animate();
+
+        // === ДИНАМІЧНИЙ РІВЕНЬ ЗАРАЖЕННЯ ===
+        document.addEventListener("DOMContentLoaded", () => {
+            const infectionValueText = document.getElementById('infection-value');
+            const infectionBar = document.getElementById('infection-bar');
+            const infectionLabel = document.getElementById('infection-label');
+            
+            // Генеруємо випадковий кінцевий рівень від 15% до 95%
+            const targetInfection = Math.floor(Math.random() * 80) + 15;
+            let currentInfection = 0;
+            
+            // Анімація "сканування"
+            const scanInterval = setInterval(() => {
+                currentInfection += 1;
+                infectionValueText.textContent = currentInfection + '%';
+                infectionBar.style.width = currentInfection + '%';
+                
+                // Коли дійшли до потрібного відсотка
+                if (currentInfection >= targetInfection) {
+                    clearInterval(scanInterval);
+                    
+                    // Якщо зараження критичне (більше 75%), змінюємо колір на червоний
+                    if (targetInfection > 75) {
+                        infectionLabel.style.color = '#ff3333';
+                        infectionBar.style.backgroundColor = '#cc0000';
+                        infectionBar.style.boxShadow = '0 0 15px #ff3333';
+                    }
+                }
+            }, 30); // 30 мілісекунд на 1%
+        });
     </script>
 
 </body>
